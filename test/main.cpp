@@ -2,6 +2,7 @@
 
 #include "unicode.test.cpp"
 #include "string.test.cpp"
+#include "number.test.cpp"
 #include "array.test.cpp"
 #include "map.test.cpp"
 #include "value.test.cpp"
@@ -23,6 +24,7 @@ int main(int argc, char const *argv[]) {
 	map_test();
 	string_test();
 	value_test();
+	number_test();
 
 	auto status = ext::status();
 	ASSERT(status.type() == ext::status_type::success);
