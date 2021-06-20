@@ -24,15 +24,15 @@ struct __parse_result {
 __parse_result __parse(ext::string const& string, __parse_options const& options, ext::status& status) {
 
     #define __EMPTY_STRING() \
-        status.add_failure("failed to parse number from \"%s\": empty string", string.c_string()); \
+        status.add_failure("failed to parse number \"%s\": empty string", string.c_string()); \
         return {};
 
     #define __UNEXPECTED_TOKEN() \
-        status.add_failure("failed to parse number from \"%s\": unexpected token found \"%c\"", string.c_string(), chr); \
+        status.add_failure("failed to parse number \"%s\": unexpected token found \"%c\"", string.c_string(), chr); \
         return {};
 
     #define __UNEXPECTED_END() \
-        status.add_failure("failed to parse number from \"%s\": unexpected end of string", string.c_string()); \
+        status.add_failure("failed to parse number \"%s\": unexpected end of string", string.c_string()); \
         return {};
 
     __parse_result res = { .sign = 1 };
@@ -87,9 +87,23 @@ __parse_result __parse(ext::string const& string, __parse_options const& options
     ASSERT(res.integer_read <= 19);
     ASSERT(res.fraction_read <= 19);
 
-    res.value = (static_cast<double>(res.integer)
-                    + pow(res.fraction, (res.fraction_read * -1))
-                        * static_cast<double>(res.sign));
+    if (res.fraction_read > 0) {
+        res.value = (static_cast<double>(res.integer)
+                    + (static_cast<double>(res.fraction)
+                        * pow(10, res.fraction_read * -1))
+                            * static_cast<double>(res.sign));
+    } else {
+        res.value = (static_cast<double>(res.integer)
+                    * static_cast<double>(res.sign));
+    }
+
+    // ext::output("sign: %d\n", res.sign);
+    // ext::output("integer: %lld\n", res.integer);
+    // ext::output("fraction: %lld\n", res.fraction);
+    // ext::output("integer_read: %lld\n", res.integer_read);
+    // ext::output("fraction_read: %lld\n", res.fraction_read);
+    // ext::output("read: %lld\n", res.read);
+    // ext::output("value: %f\n", res.value);
 
     status.set_success();
     return res;
@@ -111,7 +125,7 @@ T __parse_int(ext::string const& string, bool sign, long double min, long double
         && (res.value <= max)) {
             return static_cast<T>(res.value);
         } else {
-            status.add_failure("failed to parse number from \"%s\": impossible to narrow into %s", string.c_string(), name);
+            status.add_failure("failed to parse number \"%s\": impossible to narrow into %s", string.c_string(), name);
             return 0;
         }
     } else {
