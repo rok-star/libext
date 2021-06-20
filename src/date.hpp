@@ -26,9 +26,9 @@ private:
     int64_t _second;
     int64_t _millisecond;
     double _time;
-public:
     datetime();
     datetime(double time);
+public:
     datetime(ext::datetime const& datetime);
     ext::datetime& operator=(ext::datetime const& datetime);
     bool operator==(ext::datetime const& datetime) const;
@@ -44,6 +44,9 @@ public:
     double const& time() const;
     ext::datetime add(int64_t num, ext::date_part const& part);
     ext::datetime subtract(int64_t num, ext::date_part const& part);
+    static ext::datetime parse_iso(ext::string const& string, ext::status& status);
+    static ext::datetime now_local();
+    static ext::datetime now_utc();
 };
 
 } /* namespace ext */

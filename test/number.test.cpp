@@ -26,17 +26,14 @@ void number_test() {
         auto status = ext::status();
         auto const val = ext::number::parse_int8("-129", status);
         ASSERT(status.type() == ext::status_type::failure);
-        ext::output("%s\n", status.message().c_string());
     } {
         auto status = ext::status();
         auto const val = ext::number::parse_int8("128", status);
         ASSERT(status.type() == ext::status_type::failure);
-        ext::output("%s\n", status.message().c_string());
     } {
         auto status = ext::status();
         auto const val = ext::number::parse_int8("1234", status);
         ASSERT(status.type() == ext::status_type::failure);
-        ext::output("%s\n", status.message().c_string());
     }
     // int16_t
     {
@@ -63,17 +60,14 @@ void number_test() {
         auto status = ext::status();
         auto const val = ext::number::parse_int16("-32769", status);
         ASSERT(status.type() == ext::status_type::failure);
-        ext::output("%s\n", status.message().c_string());
     } {
         auto status = ext::status();
         auto const val = ext::number::parse_int16("32768", status);
         ASSERT(status.type() == ext::status_type::failure);
-        ext::output("%s\n", status.message().c_string());
     } {
         auto status = ext::status();
         auto const val = ext::number::parse_int16("327691", status);
         ASSERT(status.type() == ext::status_type::failure);
-        ext::output("%s\n", status.message().c_string());
     }
     // int32_t
     {
@@ -100,17 +94,14 @@ void number_test() {
         auto status = ext::status();
         auto const val = ext::number::parse_int32("-2147483649", status);
         ASSERT(status.type() == ext::status_type::failure);
-        ext::output("%s\n", status.message().c_string());
     } {
         auto status = ext::status();
         auto const val = ext::number::parse_int32("2147483648", status);
         ASSERT(status.type() == ext::status_type::failure);
-        ext::output("%s\n", status.message().c_string());
     } {
         auto status = ext::status();
         auto const val = ext::number::parse_int32("214748364711", status);
         ASSERT(status.type() == ext::status_type::failure);
-        ext::output("%s\n", status.message().c_string());
     }
 
 
