@@ -55,7 +55,6 @@ __parse_result __parse(ext::string const& string, __parse_options const& options
 
     while (res.read < string.data().size()) {
         auto const chr = string.data()[res.read];
-
         if (chr >= '0' && chr <= '9') {
             res.integer = (res.integer * 10) + (chr - '0');
             res.integer_read += 1;
@@ -74,7 +73,6 @@ __parse_result __parse(ext::string const& string, __parse_options const& options
 
     while (res.read < string.data().size()) {
         auto const chr = string.data()[res.read];
-
         if (chr >= '0' && chr <= '9') {
             res.fraction = (res.fraction * 10) + (chr - '0');
             res.fraction_read += 1;
@@ -97,14 +95,6 @@ __parse_result __parse(ext::string const& string, __parse_options const& options
                     * static_cast<double>(res.sign));
     }
 
-    // ext::output("sign: %d\n", res.sign);
-    // ext::output("integer: %lld\n", res.integer);
-    // ext::output("fraction: %lld\n", res.fraction);
-    // ext::output("integer_read: %lld\n", res.integer_read);
-    // ext::output("fraction_read: %lld\n", res.fraction_read);
-    // ext::output("read: %lld\n", res.read);
-    // ext::output("value: %f\n", res.value);
-
     status.set_success();
     return res;
 
@@ -125,7 +115,7 @@ T __parse_int(ext::string const& string, bool sign, long double min, long double
         && (res.value <= max)) {
             return static_cast<T>(res.value);
         } else {
-            status.add_failure("failed to parse number \"%s\": impossible to narrow into %s", string.c_string(), name);
+            status.add_failure("failed to parse number \"%s\": value is out of range (%s)", string.c_string(), name);
             return 0;
         }
     } else {
