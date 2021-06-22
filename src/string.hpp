@@ -20,8 +20,10 @@ public:
     ext::string& operator=(ext::string && string);
     ext::string& operator+=(ext::string const& string);
     ext::string& operator+=(char const* pchar);
+    ext::string& operator+=(char const char_);
     ext::string operator+(ext::string const& string) const;
     ext::string operator+(char const* pchar) const;
+    ext::string operator+(char const char_) const;
     bool operator==(ext::string const& string) const;
     bool operator==(char const* pchar) const;
     bool operator!=(ext::string const& string) const;

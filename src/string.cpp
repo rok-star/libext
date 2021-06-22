@@ -43,6 +43,11 @@ ext::string& ext::string::operator+=(char const* pchar) {
     return *this;
 }
 
+ext::string& ext::string::operator+=(char const char_) {
+    _data.push(char_);
+    return *this;
+}
+
 ext::string ext::string::operator+(ext::string const& string) const {
     ext::string ret;
     ret.data().reserve(_data.size() + string._data.size());
@@ -57,6 +62,14 @@ ext::string ext::string::operator+(char const* pchar) const {
     ret.data().reserve(_data.size() + string._data.size());
     ret.data().push(_data);
     ret.data().push(string._data);
+    return ret;
+}
+
+ext::string ext::string::operator+(char const char_) const {
+    ext::string ret;
+    ret.data().reserve(_data.size() + 2);
+    ret.data().push(_data);
+    ret.data().push(char_);
     return ret;
 }
 

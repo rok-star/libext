@@ -1,6 +1,8 @@
 #pragma once
 
 #include <libext/base.hpp>
+#include <libext/string.hpp>
+#include <libext/status.hpp>
 
 namespace ext {
 
@@ -26,9 +28,9 @@ private:
     int64_t _second;
     int64_t _millisecond;
     double _time;
+public:
     datetime();
     datetime(double time);
-public:
     datetime(ext::datetime const& datetime);
     ext::datetime& operator=(ext::datetime const& datetime);
     bool operator==(ext::datetime const& datetime) const;
