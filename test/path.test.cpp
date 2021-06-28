@@ -16,7 +16,4 @@ void path_test() {
     ASSERT(copy.file() == stat.file());
     ASSERT(copy.modified() == stat.modified());
     ASSERT(copy.size() == stat.size());
-
-    ext::output("cwd: %s\n", cwd.c_string());
-    ext::output("size: %ld\n", stat.size());
 }

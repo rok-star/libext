@@ -42,7 +42,6 @@ int main(int argc, char const *argv[]) {
 	ASSERT(status.type() == ext::status_type::failure);
 	ASSERT(status.message() == "abc123");
 
-
 	path_test();
 
 	std::cout << "Nothing failed!" << std::endl;

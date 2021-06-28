@@ -62,11 +62,6 @@ void value_test() {
             { "prop3", ext::value::object({{ "subprop1", ext::value() }}) }
         });
         ASSERT(val.type() == ext::value_type::object);
-
-        for (auto const& item : val.object_value().data()) {
-            ext::output("%s\n", item.key().c_string());
-        }
-
         ASSERT(val.has("prop1") == true);
         ASSERT(val.has("prop2") == true);
         ASSERT(val.has("prop3") == true);
