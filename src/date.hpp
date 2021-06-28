@@ -46,7 +46,7 @@ public:
     double const& time() const;
     ext::datetime add(int64_t num, ext::date_part const& part);
     ext::datetime subtract(int64_t num, ext::date_part const& part);
-    static ext::datetime parse_iso(ext::string const& string, ext::status& status);
+    static ext::datetime parse(ext::string const& string, ext::status& status);
     static ext::datetime now_local();
     static ext::datetime now_utc();
 };
