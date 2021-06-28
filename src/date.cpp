@@ -106,11 +106,11 @@ double const& ext::datetime::time() const {
     return _time;
 }
 
-ext::datetime ext::datetime::add(int64_t num, ext::date_part const& part) {
+ext::datetime ext::datetime::add(int64_t num, ext::datetime_part const& part) {
     return {};
 }
 
-ext::datetime ext::datetime::subtract(int64_t num, ext::date_part const& part) {
+ext::datetime ext::datetime::subtract(int64_t num, ext::datetime_part const& part) {
     return {};
 }
 

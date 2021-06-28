@@ -6,7 +6,7 @@
 
 namespace ext {
 
-enum class date_part {
+enum class datetime_part {
     year,
     month,
     week,
@@ -44,8 +44,8 @@ public:
     int64_t const& second() const;
     int64_t const& millisecond() const;
     double const& time() const;
-    ext::datetime add(int64_t num, ext::date_part const& part);
-    ext::datetime subtract(int64_t num, ext::date_part const& part);
+    ext::datetime add(int64_t num, ext::datetime_part const& part);
+    ext::datetime subtract(int64_t num, ext::datetime_part const& part);
     static ext::datetime parse(ext::string const& string, ext::status& status);
     static ext::datetime now_local();
     static ext::datetime now_utc();
