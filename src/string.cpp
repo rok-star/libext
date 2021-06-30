@@ -109,9 +109,11 @@ ext::array<char>& ext::string::data() {
 
 int64_t ext::string::size() const {
     int64_t ret = 0;
-    for (int64_t i = 0; i < _data.size(); i++)
-        if ((_data[i] & 0xc0) != 0x80)
+    for (int64_t i = 0; i < _data.size(); i++) {
+        if ((_data[i] & 0xc0) != 0x80) {
             ret += 1;
+        }
+    }
     return ret;
 }
 
