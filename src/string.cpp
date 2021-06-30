@@ -107,6 +107,74 @@ ext::array<char>& ext::string::data() {
     return _data;
 }
 
+int64_t ext::string::size() const {
+    int64_t ret = 0;
+    for (int64_t i = 0; i < _data.size(); i++)
+        if ((_data[i] & 0xc0) != 0x80)
+            ret += 1;
+    return ret;
+}
+
+int64_t ext::string::index_of(ext::string const& string, int64_t start) const {
+    return -1;
+}
+
+int64_t ext::string::index_of(char const* pchar, int64_t start) const {
+    return -1;
+}
+
+int64_t ext::string::index_of(char const char_, int64_t start) const {
+    return -1;
+}
+
+int64_t ext::string::index_of_last(ext::string const& string, int64_t start) const {
+    return -1;
+}
+
+int64_t ext::string::index_of_last(char const* pchar, int64_t start) const {
+    return -1;
+}
+
+int64_t ext::string::index_of_last(char const char_, int64_t start) const {
+    return -1;
+}
+
+bool ext::string::contains(ext::string const& string) const {
+    return false;
+}
+
+bool ext::string::contains(char const* pchar) const {
+    return false;
+}
+
+bool ext::string::contains(char const char_) const {
+    return false;
+}
+
+bool ext::string::starts_with(ext::string const& string) const {
+    return false;
+}
+
+bool ext::string::starts_with(char const* pchar) const {
+    return false;
+}
+
+bool ext::string::starts_with(char const char_) const {
+    return false;
+}
+
+bool ext::string::ends_with(ext::string const& string) const {
+    return false;
+}
+
+bool ext::string::ends_with(char const* pchar) const {
+    return false;
+}
+
+bool ext::string::ends_with(char const char_) const {
+    return false;
+}
+
 ext::string ext::string::substr(int64_t index, int64_t size) const {
     index = (index < 0) ? 0 : index;
     size = (size < 0) ? 0 : size;
@@ -160,14 +228,6 @@ ext::string ext::string::first_or(ext::string const& string) const {
 ext::string ext::string::last_or(ext::string const& string) const {
     int64_t size_ = size();
     return (size_ > 0) ? substr(size_ - 1, 1) : string;
-}
-
-int64_t ext::string::size() const {
-    int64_t ret = 0;
-    for (int64_t i = 0; i < _data.size(); i++)
-        if ((_data[i] & 0xc0) != 0x80)
-            ret += 1;
-    return ret;
 }
 
 ext::string& ext::string::clear() {
