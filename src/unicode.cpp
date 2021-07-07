@@ -8,30 +8,38 @@ uint32_t const __whitespace[25] = { 9, 10, 11, 12, 13, 32, 160, 5760, 8192, 8193
 uint32_t const __digital[10] = { 48, 49, 50, 51, 52, 53, 54, 55, 56, 57 };
 
 uint32_t upper(uint32_t codepoint) {
-    for (int64_t i = 0; i < 1250; i++)
-        if (__lowerupper[i][0] == codepoint)
+    for (int64_t i = 0; i < 1250; i++) {
+        if (__lowerupper[i][0] == codepoint) {
             return __lowerupper[i][1];
+        }            
+    }
     return codepoint;
 }
 
 uint32_t lower(uint32_t codepoint) {
-    for (int64_t i = 0; i < 1250; i++)
-        if (__lowerupper[i][1] == codepoint)
+    for (int64_t i = 0; i < 1250; i++) {
+        if (__lowerupper[i][1] == codepoint) {
             return __lowerupper[i][0];
+        }
+    }
     return codepoint;
 }
 
 bool whitespace(uint32_t codepoint) {
-    for (int64_t i = 0; i < 25; i++)
-        if (__whitespace[i] == codepoint)
+    for (int64_t i = 0; i < 25; i++) {
+        if (__whitespace[i] == codepoint) {
             return true;
+        }
+    }
     return false;
 }
 
 bool digital(uint32_t codepoint) {
-    for (int64_t i = 0; i < 10; i++)
-        if (__digital[i] == codepoint)
+    for (int64_t i = 0; i < 10; i++) {
+        if (__digital[i] == codepoint) {
             return true;
+        }
+    }
     return false;
 }
 
