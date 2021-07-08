@@ -44,11 +44,11 @@ public:
     int64_t const& second() const;
     int64_t const& millisecond() const;
     double const& time() const;
-    ext::datetime add(int64_t num, ext::datetime_part const& part);
-    ext::datetime subtract(int64_t num, ext::datetime_part const& part);
+    ext::datetime local() const;
+    ext::datetime add(int64_t num, ext::datetime_part const& part) const;
+    ext::datetime subtract(int64_t num, ext::datetime_part const& part) const;
     static ext::datetime parse(ext::string const& string, ext::status& status);
-    static ext::datetime now_local();
-    static ext::datetime now_utc();
+    static ext::datetime now();
 };
 
 } /* namespace ext */
