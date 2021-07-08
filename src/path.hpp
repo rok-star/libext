@@ -20,10 +20,10 @@ private:
     int64_t _size;
 public:
     stat(ext::string const& path);
-    stat(ext::path::stat const& stat) = default;
-    stat(ext::path::stat && stat) = default;
-    ext::path::stat& operator=(ext::path::stat const& stat) = default;
-    ext::path::stat& operator=(ext::path::stat && stat) = default;
+    stat(stat const& stat) = default;
+    stat(stat && stat) = default;
+    stat& operator=(stat const& stat) = default;
+    stat& operator=(stat && stat) = default;
     ext::string const& path() const;
     bool exists() const;
     bool directory() const;

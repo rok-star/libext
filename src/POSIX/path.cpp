@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <libext/path.hpp>
 
-typedef struct stat stat_t;
+typedef struct stat __stat_t;
 
 namespace ext {
 namespace path {
@@ -31,15 +31,7 @@ ext::string extname(ext::string const& path) {
     return {};
 }
 
-ext::string construct(ext::array<ext::string> const& parts) {
-    return {};
-}
-
-ext::array<ext::string> destruct(ext::string const& path) {
-    return {};
-}
-
-ext::path::stat::stat(ext::string const& path)
+stat::stat(ext::string const& path)
     : _path(path)
     , _exists(false)
     , _directory(false)
@@ -47,7 +39,7 @@ ext::path::stat::stat(ext::string const& path)
     , _modified(0)
     , _size(0) {
 
-    stat_t st = {};
+    __stat_t st = {};
     if (::stat(path.c_string(), &st) == 0) {
         _exists = true;
         _file = S_ISREG(st.st_mode);
@@ -63,27 +55,27 @@ ext::path::stat::stat(ext::string const& path)
     }
 }
 
-ext::string const& ext::path::stat::path() const {
+ext::string const& stat::path() const {
     return _path;
 }
 
-bool ext::path::stat::exists() const {
+bool stat::exists() const {
     return _exists;
 }
 
-bool ext::path::stat::directory() const {
+bool stat::directory() const {
     return _directory;
 }
 
-bool ext::path::stat::file() const {
+bool stat::file() const {
     return _file;
 }
 
-double ext::path::stat::modified() const {
+double stat::modified() const {
     return _modified;
 }
 
-int64_t ext::path::stat::size() const {
+int64_t stat::size() const {
     return _size;
 }
 
