@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "status.test.cpp"
 #include "unicode.test.cpp"
 #include "string.test.cpp"
@@ -29,7 +27,7 @@ int main(int argc, char const *argv[]) {
 	status_test();
 	path_test();
 
-	std::cout << "Nothing failed!" << std::endl;
+	ext::output("Nothing failed!\n");
 
 	return 0;
 }
