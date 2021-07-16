@@ -52,3 +52,15 @@ public:
 };
 
 } /* namespace ext */
+
+inline constexpr double operator "" _ms(long double ms) {
+    return ms;
+}
+
+inline constexpr double operator "" _sec(long double s) {
+    return (s * 1000.0);
+}
+
+inline constexpr double operator "" _min(long double m) {
+    return (m * 60.0 * 1000.0);
+}

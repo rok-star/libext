@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "status.test.cpp"
 #include "unicode.test.cpp"
 #include "string.test.cpp"
 #include "number.test.cpp"
@@ -25,23 +26,7 @@ int main(int argc, char const *argv[]) {
 	string_test();
 	value_test();
 	number_test();
-
-	auto status = ext::status();
-	ASSERT(status.type() == ext::status_type::success);
-	ASSERT(status.message() == "");
-
-	status.add_failure("abc");
-	ASSERT(status.type() == ext::status_type::failure);
-	ASSERT(status.message() == "abc");
-
-	status.set_success();
-	ASSERT(status.type() == ext::status_type::success);
-	ASSERT(status.message() == "");
-
-	status.add_failure("abc%s", "123");
-	ASSERT(status.type() == ext::status_type::failure);
-	ASSERT(status.message() == "abc123");
-
+	status_test();
 	path_test();
 
 	std::cout << "Nothing failed!" << std::endl;
