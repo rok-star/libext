@@ -27,7 +27,7 @@ int main(int argc, char const *argv[]) {
 	status_test();
 	path_test();
 
-	ext::output("Nothing failed!\n");
+	ext::output("%s\n", "Nothing failed!");
 
 	return 0;
 }
