@@ -21,7 +21,7 @@ int main() {
                 auto chunk = event.stream().read(); // ext::array<char> ...
 
                 ;
-            } else if (event.type() == ext::io::event_type::readable) {
+            } else if (event.type() == ext::io::event_type::signal) {
                 auto signum = event.stream().signal(); // int32_t ...
 
                 if (signum == SIGINT) {
