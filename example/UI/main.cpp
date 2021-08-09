@@ -14,7 +14,7 @@ int main() {
     // });
 
     for (;;) {
-        for (auto const& event : app.process({ .timeout = 1000 })) {
+        for (auto const& event : app.poll({ .timeout = 1000 })) {
             if (event.type() == ext::ui::app_event_type::exit) {
                 exit_ = true;
             }

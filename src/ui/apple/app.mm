@@ -42,28 +42,29 @@ app::app(ext::ui::app_options const& options)
     : _events() {
     [[NSApplication sharedApplication]
         setDelegate: [[__Delegate alloc]
-            initWithOnRun: [&](){
+            initWithOnRun: [&, options](){
                 id mainMenu = [[NSMenu alloc] init];
                 id appMenu = [[NSMenu alloc] init];
-                id appItem = [mainMenu addItemWithTitle: [NSString stringWithCString: "123" encoding: NSUTF8StringEncoding] action: nil keyEquivalent: @""];
+                id appItem = [mainMenu addItemWithTitle: [NSString stringWithCString: "" encoding: NSUTF8StringEncoding] action: nil keyEquivalent: @""];
                 id quitItem = [appMenu addItemWithTitle: @"Quit" action: nil keyEquivalent: @"q"];
                 [quitItem setTarget: [NSApp delegate]];
                 [quitItem setAction: @selector(exit)];
                 [appItem setSubmenu: appMenu];
                 [NSApp setMainMenu: mainMenu];
                 [NSApp setActivationPolicy: NSApplicationActivationPolicyRegular];
+                [appMenu setTitle: [NSString stringWithCString: options.title.c_string() encoding: NSUTF8StringEncoding]];
             }
             onExit: [&](){
-                _events.push(
-                    ext::ui::app_event::exit_event()
-                );
+                auto event = ext::ui::app_event();
+                event._type = ext::ui::app_event_type::exit;
+                _events.push(event);
             }
         ]
     ];
     [NSApp finishLaunching];
 }
 
-ext::array<ext::ui::app_event> const& app::process(ext::ui::app_process_options const& options) {
+ext::array<ext::ui::app_event> const& app::poll(ext::ui::app_poll_options const& options) {
     _events.clear();
 
     auto timeout = options.timeout;
