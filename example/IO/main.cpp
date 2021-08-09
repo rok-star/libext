@@ -6,7 +6,7 @@
     } \
 }
 
-bool _exit = false;
+bool exit_ = false;
 
 int main() {
 
@@ -30,7 +30,7 @@ int main() {
             }
         }
 
-        if (_exit) {
+        if (exit_) {
             break;
         }
     }
