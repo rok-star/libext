@@ -1,5 +1,3 @@
-#include <libext/path.hpp>
-
 void path_test() {
     auto cwd = ext::path::cwd();
     auto stat = ext::path::stat(cwd);

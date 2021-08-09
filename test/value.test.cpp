@@ -1,5 +1,3 @@
-#include <libext/value.hpp>
-
 void value_test() {
     {
         auto val = ext::value();

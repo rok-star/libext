@@ -1,5 +1,3 @@
-#include <libext/array.hpp>
-
 void array_test() {
 	{
 		auto arr1 = ext::array<int>();

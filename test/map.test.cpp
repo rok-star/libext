@@ -1,5 +1,3 @@
-#include <libext/map.hpp>
-
 void map_test() {
 	{
         auto map = ext::map<ext::string, double>();

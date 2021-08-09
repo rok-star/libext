@@ -1,5 +1,3 @@
-#include <libext/number.hpp>
-
 void number_test() {
     // int8_t
     {

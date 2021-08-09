@@ -1,5 +1,3 @@
-#include <libext/libext.hpp>
-
 void status_test() {
     auto status = ext::status();
 	ASSERT(status.type() == ext::status_type::success);

@@ -1,5 +1,3 @@
-#include <libext/unicode.hpp>
-
 struct unicode_expected {
     uint32_t codepoint;
     uint32_t lower;

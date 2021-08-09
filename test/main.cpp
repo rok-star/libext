@@ -1,3 +1,5 @@
+#include <libext/core.hpp>
+
 #include "status.test.cpp"
 #include "unicode.test.cpp"
 #include "string.test.cpp"
@@ -7,14 +9,14 @@
 #include "value.test.cpp"
 #include "path.test.cpp"
 
-#include "../src/status.cpp"
-#include "../src/unicode.cpp"
-#include "../src/string.cpp"
-#include "../src/number.cpp"
-#include "../src/value.cpp"
-#include "../src/date.cpp"
-#include "../src/json.cpp"
-#include "../src/POSIX/path.cpp"
+#include "../src/core/status.cpp"
+#include "../src/core/unicode.cpp"
+#include "../src/core/string.cpp"
+#include "../src/core/number.cpp"
+#include "../src/core/value.cpp"
+#include "../src/core/date.cpp"
+#include "../src/core/json.cpp"
+#include "../src/core/POSIX/path.cpp"
 
 int main(int argc, char const *argv[]) {
 

@@ -1,5 +1,3 @@
-#include <libext/string.hpp>
-
 void string_test() {
     {
         auto str1 = ext::string("hello");
