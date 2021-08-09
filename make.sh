@@ -32,6 +32,23 @@ make_core() {
     ar rc $OUT/lib/libext-core.a $OUT/obj/core/*.o
 }
 
+make_ui() {
+    cp $SRC/ui.hpp $OUT/include/libext/ui.hpp
+
+    for path in $SRC/ui/*.hpp; do
+        cp $(realpath $path) $OUT/include/libext/ui/$(basename $path)
+    done
+
+    for path in $SRC/ui/*.cpp; do
+        clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/ui/$(basename $path .cpp).o
+        if (( $? != 0 )); then
+            exit
+        fi
+    done
+
+    ar rc $OUT/lib/libext-ui.a $OUT/obj/ui/*.o
+}
+
 install() {
 	cp -r $OUT/include/libext /usr/local/include
 	cp $OUT/lib/libext-core.a /usr/local/lib/libext-core.a
@@ -43,5 +60,6 @@ test_() {
 }
 
 make_core
+make_ui
 install
 test_
