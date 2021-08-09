@@ -8,6 +8,7 @@ FLAGS="-std=c++2a -g -O0 -Wall -Wextra -Wno-unused-parameter -Wno-unused-variabl
 [ ! -d $OUT/obj/core ] 			  && mkdir -p $OUT/obj/core
 [ ! -d $OUT/obj/gfx ] 			  && mkdir -p $OUT/obj/gfx
 [ ! -d $OUT/obj/ui ] 			  && mkdir -p $OUT/obj/ui
+[ ! -d $OUT/obj/ui/apple ] 	      && mkdir -p $OUT/obj/ui/apple
 [ ! -d $OUT/lib ] 			      && mkdir -p $OUT/lib
 [ ! -d $OUT/include ] 		      && mkdir -p $OUT/include
 [ ! -d $OUT/include/libext ]      && mkdir -p $OUT/include/libext
@@ -46,12 +47,20 @@ make_ui() {
         fi
     done
 
-    ar rc $OUT/lib/libext-ui.a $OUT/obj/ui/*.o
+    for path in $SRC/ui/apple/*.mm; do
+        clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/ui/apple/$(basename $path .mm).o
+        if (( $? != 0 )); then
+            exit
+        fi
+    done
+
+    ar rc $OUT/lib/libext-ui.a $OUT/obj/ui/*.o $OUT/obj/ui/apple/*.o
 }
 
 install() {
 	cp -r $OUT/include/libext /usr/local/include
 	cp $OUT/lib/libext-core.a /usr/local/lib/libext-core.a
+    cp $OUT/lib/libext-ui.a /usr/local/lib/libext-ui.a
 }
 
 test_() {

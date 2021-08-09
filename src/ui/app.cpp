@@ -9,17 +9,10 @@ ext::ui::app_event_type const& app_event::type() const {
     return _type;
 }
 
-app::~app() {
-
-}
-
-app::app()
-    : _events() {}
-
-ext::array<ext::ui::app_event> const& app::process(ext::ui::app_process_options const& options) {
-    _events.clear();
-
-    return _events;
+ext::ui::app_event app_event::exit_event() {
+    ext::ui::app_event event;
+    event._type = ext::ui::app_event_type::exit;
+    return event;
 }
 
 } /* namespace ext::ui */
