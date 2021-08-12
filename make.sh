@@ -33,6 +33,10 @@ make_core() {
     ar rc $OUT/lib/libext-core.a $OUT/obj/core/*.o
 }
 
+make_gfx() {
+    echo "nothing to compile for gfx yet..."
+}
+
 make_ui() {
     cp $SRC/ui.hpp $OUT/include/libext/ui.hpp
 
@@ -48,7 +52,7 @@ make_ui() {
     done
 
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        echo "nothing to compile specifically for linux yet"
+        echo "nothing to compile for linux yet..."
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         for path in $SRC/ui/apple/*.mm; do
             clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/ui/apple_$(basename $path .mm).o
@@ -73,6 +77,7 @@ test_() {
 }
 
 make_core
+make_gfx
 make_ui
 install
 test_
