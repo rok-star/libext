@@ -8,7 +8,6 @@ FLAGS="-std=c++2a -g -O0 -Wall -Wextra -Wno-unused-parameter -Wno-unused-variabl
 [ ! -d $OUT/obj/core ] 			  && mkdir -p $OUT/obj/core
 [ ! -d $OUT/obj/gfx ] 			  && mkdir -p $OUT/obj/gfx
 [ ! -d $OUT/obj/ui ] 			  && mkdir -p $OUT/obj/ui
-[ ! -d $OUT/obj/ui/apple ] 	      && mkdir -p $OUT/obj/ui/apple
 [ ! -d $OUT/lib ] 			      && mkdir -p $OUT/lib
 [ ! -d $OUT/include ] 		      && mkdir -p $OUT/include
 [ ! -d $OUT/include/libext ]      && mkdir -p $OUT/include/libext
@@ -52,7 +51,12 @@ make_ui() {
     done
 
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        echo "nothing to compile for linux yet..."
+        for path in $SRC/ui/x11/*.cpp; do
+            clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/ui/x11_$(basename $path .cpp).o
+            if (( $? != 0 )); then
+                exit
+            fi
+        done
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         for path in $SRC/ui/apple/*.mm; do
             clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/ui/apple_$(basename $path .mm).o
