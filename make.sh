@@ -47,14 +47,18 @@ make_ui() {
         fi
     done
 
-    for path in $SRC/ui/apple/*.mm; do
-        clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/ui/apple/$(basename $path .mm).o
-        if (( $? != 0 )); then
-            exit
-        fi
-    done
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo "nothing to compile specifically for linux yet"
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        for path in $SRC/ui/apple/*.mm; do
+            clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/ui/apple_$(basename $path .mm).o
+            if (( $? != 0 )); then
+                exit
+            fi
+        done
+    fi
 
-    ar rc $OUT/lib/libext-ui.a $OUT/obj/ui/*.o $OUT/obj/ui/apple/*.o
+    ar rc $OUT/lib/libext-ui.a $OUT/obj/ui/*.o
 }
 
 install() {
