@@ -80,20 +80,20 @@ public:
 };
 
 template<typename T>
-inline ext::array<T>::~array() {
+inline array<T>::~array() {
     for (int64_t i = 0; i < _size; i++)
         _data[i].~T();
     SAFE_FREE(_data);
 }
 
 template<typename T>
-inline ext::array<T>::array()
+inline array<T>::array()
     : _capacity(0)
     , _size(0)
     , _data(nullptr) {}
 
 template<typename T>
-inline ext::array<T>::array(ext::array<T> const& array)
+inline array<T>::array(ext::array<T> const& array)
     : _capacity(array._capacity)
     , _size(array._size)
     , _data(ext::alloc<T>(array._capacity)) {
@@ -102,7 +102,7 @@ inline ext::array<T>::array(ext::array<T> const& array)
 }
 
 template<typename T>
-inline ext::array<T>::array(ext::array<T> && array)
+inline array<T>::array(ext::array<T> && array)
     : _capacity(array._capacity)
     , _size(array._size)
     , _data(array._data) {
@@ -112,7 +112,7 @@ inline ext::array<T>::array(ext::array<T> && array)
 }
 
 template<typename T>
-inline ext::array<T>::array(std::initializer_list<T> const& list)
+inline array<T>::array(std::initializer_list<T> const& list)
     : _capacity(list.size())
     , _size(list.size())
     , _data(ext::alloc<T>(list.size())) {
@@ -122,7 +122,7 @@ inline ext::array<T>::array(std::initializer_list<T> const& list)
 }
 
 template<typename T>
-inline ext::array<T>::array(T const* data, int64_t size)
+inline array<T>::array(T const* data, int64_t size)
     : _capacity(size)
     , _size(size)
     , _data(ext::alloc<T>(size)) {
@@ -132,7 +132,7 @@ inline ext::array<T>::array(T const* data, int64_t size)
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::operator=(ext::array<T> const& array) {
+inline ext::array<T>& array<T>::operator=(ext::array<T> const& array) {
     if (this != &array) {
         clear();
         reserve(array._size);
@@ -144,7 +144,7 @@ inline ext::array<T>& ext::array<T>::operator=(ext::array<T> const& array) {
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::operator=(ext::array<T> && array) {
+inline ext::array<T>& array<T>::operator=(ext::array<T> && array) {
     if (this != &array) {
         T* td = _data;
         int64_t ts = _size;
@@ -160,33 +160,33 @@ inline ext::array<T>& ext::array<T>::operator=(ext::array<T> && array) {
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::operator+=(T const& item) {
+inline ext::array<T>& array<T>::operator+=(T const& item) {
     push(item);
     return *this;
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::operator+=(ext::array<T> const& array) {
+inline ext::array<T>& array<T>::operator+=(ext::array<T> const& array) {
     push(array);
     return *this;
 }
 
 template<typename T>
-inline ext::array<T> ext::array<T>::operator+(T const& item) const {
+inline ext::array<T> array<T>::operator+(T const& item) const {
     ext::array<T> ret;
     ret.push(item);
     return ret;
 }
 
 template<typename T>
-inline ext::array<T> ext::array<T>::operator+(ext::array<T> const& item) const {
+inline ext::array<T> array<T>::operator+(ext::array<T> const& item) const {
     ext::array<T> ret;
     ret.push(item);
     return ret;
 }
 
 template<typename T>
-inline bool ext::array<T>::operator==(ext::array<T> const& array) const {
+inline bool array<T>::operator==(ext::array<T> const& array) const {
     if (_size == array._size) {
         for (int64_t i = 0; i < _size; i++) {
             if (_data[i] != array._data[i]) {
@@ -200,111 +200,111 @@ inline bool ext::array<T>::operator==(ext::array<T> const& array) const {
 }
 
 template<typename T>
-inline bool ext::array<T>::operator!=(ext::array<T> const& array) const {
+inline bool array<T>::operator!=(ext::array<T> const& array) const {
     return !operator==(array);
 }
 
 template<typename T>
-inline T const& ext::array<T>::operator[](int64_t index) const {
+inline T const& array<T>::operator[](int64_t index) const {
     ASSERT((index >= 0) && (index < _size));
     return _data[index];
 }
 
 template<typename T>
-inline T& ext::array<T>::operator[](int64_t index) {
+inline T& array<T>::operator[](int64_t index) {
     ASSERT((index >= 0) && (index < _size));
     return _data[index];
 }
 
 template<typename T>
-inline int64_t ext::array<T>::size() const {
+inline int64_t array<T>::size() const {
     return _size;
 }
 
 template<typename T>
-inline int64_t ext::array<T>::capacity() const {
+inline int64_t array<T>::capacity() const {
     return _capacity;
 }
 
 template<typename T>
-inline T const* ext::array<T>::begin() const {
+inline T const* array<T>::begin() const {
     return _data;
 }
 
 template<typename T>
-inline T* ext::array<T>::begin() {
+inline T* array<T>::begin() {
     return _data;
 }
 
 template<typename T>
-inline T const* ext::array<T>::end() const {
+inline T const* array<T>::end() const {
     return (_data + _size);
 }
 
 template<typename T>
-inline T* ext::array<T>::end() {
+inline T* array<T>::end() {
     return (_data + _size);
 }
 
 template<typename T>
-inline T const* ext::array<T>::data() const {
+inline T const* array<T>::data() const {
     return _data;
 }
 
 template<typename T>
-inline T* ext::array<T>::data() {
+inline T* array<T>::data() {
     return _data;
 }
 
 template<typename T>
-inline T const& ext::array<T>::first() const {
+inline T const& array<T>::first() const {
     ASSERT(_size > 0);
     return _data[0];
 }
 
 template<typename T>
-inline T& ext::array<T>::first() {
+inline T& array<T>::first() {
     ASSERT(_size > 0);
     return _data[0];
 }
 
 template<typename T>
-inline T const& ext::array<T>::last() const {
+inline T const& array<T>::last() const {
     ASSERT(_size > 0);
     return _data[_size - 1];
 }
 
 template<typename T>
-inline T& ext::array<T>::last() {
+inline T& array<T>::last() {
     ASSERT(_size > 0);
     return _data[_size - 1];
 }
 
 template<typename T>
-inline T const& ext::array<T>::first_or(T const& item) const {
+inline T const& array<T>::first_or(T const& item) const {
     return (_size > 0) ? _data[0] : item;
 }
 
 template<typename T>
-inline T const& ext::array<T>::last_or(T const& item) const {
+inline T const& array<T>::last_or(T const& item) const {
     return (_size > 0) ? _data[_size - 1] : item;
 }
 
 template<typename T>
-inline ext::array<T> ext::array<T>::subarr(int64_t index, int64_t size) const {
+inline ext::array<T> array<T>::subarr(int64_t index, int64_t size) const {
     index = (index < 0) ? 0 : ((index > _size) ? _size : index);
     size = (size < 0) ? 0 : ((size > (_size - index)) ? (_size - index) : size);
     return ext::array(_data + index, size);
 }
 
 template<typename T>
-inline ext::array<T> ext::array<T>::slice(int64_t start, int64_t end) const {
+inline ext::array<T> array<T>::slice(int64_t start, int64_t end) const {
     ext::abort("not implemented");
     return ext::array<T>();
 }
 
 template<typename T>
-inline int64_t ext::array<T>::index_of(T const& item, int64_t start) const {
+inline int64_t array<T>::index_of(T const& item, int64_t start) const {
     start = (start < 0) ? 0 : start;
     for (int64_t i = start; i < _size; i++)
         if (_data[i] == item)
@@ -313,7 +313,7 @@ inline int64_t ext::array<T>::index_of(T const& item, int64_t start) const {
 }
 
 template<typename T>
-inline int64_t ext::array<T>::index_of(ext::array<T> const& array, int64_t start) const {
+inline int64_t array<T>::index_of(ext::array<T> const& array, int64_t start) const {
     if (array._size > 0) {
         for (int64_t i = start; i < _size; i++) {
             if ((_size - i) >= array._size) {
@@ -329,29 +329,29 @@ inline int64_t ext::array<T>::index_of(ext::array<T> const& array, int64_t start
 }
 
 template<typename T>
-inline bool ext::array<T>::includes(T const& item) const {
+inline bool array<T>::includes(T const& item) const {
     return (index_of(item) > -1);
 }
 
 template<typename T>
-inline bool ext::array<T>::includes(ext::array<T> const& array) const {
+inline bool array<T>::includes(ext::array<T> const& array) const {
     return (index_of(array) > -1);
 }
 
 template<typename T>
-inline bool ext::array<T>::empty() const {
+inline bool array<T>::empty() const {
     return (_size == 0);
 }
 
 template<typename T>
-inline void ext::array<T>::detach() {
+inline void array<T>::detach() {
     _data = nullptr;
     _size = 0;
     _capacity = 0;
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::clear() {
+inline ext::array<T>& array<T>::clear() {
     for (int64_t i = 0; i < _size; i++)
         _data[i].~T();
     _size = 0;
@@ -359,7 +359,7 @@ inline ext::array<T>& ext::array<T>::clear() {
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::splice(int64_t index, int64_t remove, ext::array<T> const& array) {
+inline ext::array<T>& array<T>::splice(int64_t index, int64_t remove, ext::array<T> const& array) {
     index = (index < 0) ? 0 : ((index > _size) ? _size : index);
     remove = (remove < 0) ? 0 : ((remove > (_size - index)) ? (_size - index) : remove);
     ext::array<T> copy(array);
@@ -369,7 +369,7 @@ inline ext::array<T>& ext::array<T>::splice(int64_t index, int64_t remove, ext::
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::splice(int64_t index, int64_t remove, T const& item) {
+inline ext::array<T>& array<T>::splice(int64_t index, int64_t remove, T const& item) {
     index = (index < 0) ? 0 : ((index > _size) ? _size : index);
     remove = (remove < 0) ? 0 : ((remove > (_size - index)) ? (_size - index) : remove);
     T copy(item);
@@ -379,7 +379,7 @@ inline ext::array<T>& ext::array<T>::splice(int64_t index, int64_t remove, T con
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::splice(int64_t index, int64_t remove) {
+inline ext::array<T>& array<T>::splice(int64_t index, int64_t remove) {
     index = (index < 0) ? 0 : ((index > _size) ? _size : index);
     remove = (remove < 0) ? 0 : ((remove > (_size - index)) ? (_size - index) : remove);
     for (int64_t i = index; i < (index + remove); i++)
@@ -391,7 +391,7 @@ inline ext::array<T>& ext::array<T>::splice(int64_t index, int64_t remove) {
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::push(T const& item) {
+inline ext::array<T>& array<T>::push(T const& item) {
     if (_capacity == _size) {
         T copy(item);
         reserve((_size + 1) * 2);
@@ -404,7 +404,7 @@ inline ext::array<T>& ext::array<T>::push(T const& item) {
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::push(ext::array<T> const& array) {
+inline ext::array<T>& array<T>::push(ext::array<T> const& array) {
     if (_capacity < (_size + array._size)) {
         ext::array<T> copy(array);
         reserve((_size + copy._size) * 2);
@@ -419,7 +419,7 @@ inline ext::array<T>& ext::array<T>::push(ext::array<T> const& array) {
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::unshift(T const& item) {
+inline ext::array<T>& array<T>::unshift(T const& item) {
     T copy(item);
     if (_capacity == _size)
         reserve(_size * 2);
@@ -431,7 +431,7 @@ inline ext::array<T>& ext::array<T>::unshift(T const& item) {
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::unshift(ext::array<T> const& array) {
+inline ext::array<T>& array<T>::unshift(ext::array<T> const& array) {
     ext::array<T> copy(array);
     if (_capacity < (_size + copy._size))
         reserve((_size + copy._size) * 2);
@@ -444,7 +444,7 @@ inline ext::array<T>& ext::array<T>::unshift(ext::array<T> const& array) {
 }
 
 template<typename T>
-inline T ext::array<T>::pop() {
+inline T array<T>::pop() {
     ASSERT(_size > 0);
     T ret(std::move(_data[_size - 1]));
     _data[_size - 1].~T();
@@ -453,7 +453,7 @@ inline T ext::array<T>::pop() {
 }
 
 template<typename T>
-inline T ext::array<T>::shift() {
+inline T array<T>::shift() {
     ASSERT(_size > 0);
     T ret(std::move(_data[0]));
     _data[0].~T();
@@ -465,7 +465,7 @@ inline T ext::array<T>::shift() {
 
 template<typename T>
 template<typename... A>
-inline ext::array<T>& ext::array<T>::push_new(A &&... a) {
+inline ext::array<T>& array<T>::push_new(A &&... a) {
     if (_capacity == _size) {
         reserve(_size * 2);
     }
@@ -476,7 +476,7 @@ inline ext::array<T>& ext::array<T>::push_new(A &&... a) {
 
 template<typename T>
 template<typename... A>
-inline ext::array<T>& ext::array<T>::unshift_new(A &&... a) {
+inline ext::array<T>& array<T>::unshift_new(A &&... a) {
     if (_capacity == _size)
         reserve(_size * 2);
     for (int64_t i = (_size - 1); i >= 0; i--)
@@ -487,7 +487,7 @@ inline ext::array<T>& ext::array<T>::unshift_new(A &&... a) {
 }
 
 template<typename T>
-inline ext::array<T>& ext::array<T>::reserve(int64_t capacity) {
+inline ext::array<T>& array<T>::reserve(int64_t capacity) {
     if (capacity > _capacity) {
         T* data = ext::alloc<T>(capacity);
         for (int64_t i = 0; i < _size; i++)
@@ -500,7 +500,7 @@ inline ext::array<T>& ext::array<T>::reserve(int64_t capacity) {
 }
 
 template<typename T>
-inline ext::array<T> ext::array<T>::with_data(T* data, int64_t size) {
+inline ext::array<T> array<T>::with_data(T* data, int64_t size) {
     ext::array<T> ret;
     ret._data = data;
     ret._size =
@@ -509,7 +509,7 @@ inline ext::array<T> ext::array<T>::with_data(T* data, int64_t size) {
 }
 
 template<typename T>
-inline ext::array<T> ext::array<T>::with_data(T* data, int64_t size, int64_t capacity) {
+inline ext::array<T> array<T>::with_data(T* data, int64_t size, int64_t capacity) {
     ext::array<T> ret;
     ret._data = data;
     ret._size = size;
@@ -518,7 +518,7 @@ inline ext::array<T> ext::array<T>::with_data(T* data, int64_t size, int64_t cap
 }
 
 template<typename T>
-inline ext::array<T> ext::array<T>::with_capacity(int64_t capacity) {
+inline ext::array<T> array<T>::with_capacity(int64_t capacity) {
     ext::array<T> ret;
     ret.reserve(capacity);
     return ret;

@@ -103,7 +103,7 @@ public:
 };
 
 template<typename... A>
-inline ext::string ext::string::format(A const&... args) {
+inline ext::string string::format(A const&... args) {
     int64_t len = snprintf(nullptr, 0, args...);
     char* pchar = ext::alloc<char>(len + 1);
     sprintf(pchar, args...);
@@ -111,12 +111,12 @@ inline ext::string ext::string::format(A const&... args) {
 }
 
 template<typename T>
-inline ext::string ext::array<T>::join(char const* sep) const {
+inline ext::string array<T>::join(char const* sep) const {
     return {};
 }
 
 template<typename T>
-inline ext::string ext::array<T>::join(ext::string const& sep) const {
+inline ext::string array<T>::join(ext::string const& sep) const {
     return {};
 }
 

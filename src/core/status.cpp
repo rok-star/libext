@@ -2,26 +2,26 @@
 
 namespace ext {
 
-ext::status::status()
+status::status()
     : _type(ext::status_type::success)
     , _message() {}
 
-ext::status_type const& ext::status::type() const {
+ext::status_type const& status::type() const {
     return _type;
 }
 
-ext::string const& ext::status::message() const {
+ext::string const& status::message() const {
     return _message;
 }
 
-void ext::status::add_failure(ext::string const& message) {
+void status::add_failure(ext::string const& message) {
     _type = ext::status_type::failure;
     _message = (_message.empty() == false)
                 ? (message + ": " + _message)
                 : message;
 }
 
-void ext::status::set_success() {
+void status::set_success() {
     _type = ext::status_type::success;
     _message = {};
 }

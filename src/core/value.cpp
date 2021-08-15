@@ -2,15 +2,15 @@
 
 namespace ext {
 
-ext::value::~value() {
+value::~value() {
     set_null();
 }
 
-ext::value::value()
+value::value()
     : _type(ext::value_type::null)
     , _data(nullptr) {}
 
-ext::value::value(ext::value const& value)
+value::value(ext::value const& value)
     : _type(value._type)
     , _data(nullptr) {
 
@@ -29,46 +29,46 @@ ext::value::value(ext::value const& value)
     }
 }
 
-ext::value::value(ext::value && value)
+value::value(ext::value && value)
     : _type(value._type)
     , _data(value._data) {
     value._type = ext::value_type::null;
     value._data = nullptr;
 }
 
-ext::value::value(char const* pchar)
+value::value(char const* pchar)
     : _type(ext::value_type::string)
     , _data(new ext::string(pchar)) {}
 
-ext::value::value(double const& number)
+value::value(double const& number)
     : _type(ext::value_type::number)
     , _data(new double(number)) {}
 
-ext::value::value(int64_t const& number)
+value::value(int64_t const& number)
     : _type(ext::value_type::number)
     , _data(new double(number)) {}
 
-ext::value::value(int32_t const& number)
+value::value(int32_t const& number)
     : _type(ext::value_type::number)
     , _data(new double(number)) {}
 
-ext::value::value(int16_t const& number)
+value::value(int16_t const& number)
     : _type(ext::value_type::number)
     , _data(new double(number)) {}
 
-ext::value::value(int8_t const& number)
+value::value(int8_t const& number)
     : _type(ext::value_type::number)
     , _data(new double(number)) {}
 
-ext::value::value(ext::string const& string)
+value::value(ext::string const& string)
     : _type(ext::value_type::string)
     , _data(new ext::string(string)) {}
 
-ext::value::value(ext::string && string)
+value::value(ext::string && string)
     : _type(ext::value_type::string)
     , _data(new ext::string(std::move(string))) {}
 
-ext::value& ext::value::operator=(ext::value const& value) {
+ext::value& value::operator=(ext::value const& value) {
     if (this != &value) {
         if (value._type == ext::value_type::null) {
             set_null();
@@ -89,7 +89,7 @@ ext::value& ext::value::operator=(ext::value const& value) {
     return *this;
 }
 
-ext::value& ext::value::operator=(ext::value && value) {
+ext::value& value::operator=(ext::value && value) {
     if (this != &value) {
         auto tt = _type;
         auto td = _data;
@@ -101,27 +101,27 @@ ext::value& ext::value::operator=(ext::value && value) {
     return *this;
 }
 
-ext::value const& ext::value::operator[](key_type const& key) const {
+ext::value const& value::operator[](key_type const& key) const {
     ASSERT(_type == ext::value_type::object);
     return object_value()[key];
 }
 
-ext::value const& ext::value::operator[](index_type const& index) const {
+ext::value const& value::operator[](index_type const& index) const {
     ASSERT(_type == ext::value_type::array);
     return array_value()[index];
 }
 
-ext::value& ext::value::operator[](key_type const& key) {
+ext::value& value::operator[](key_type const& key) {
     ASSERT(_type == ext::value_type::object);
     return object_value()[key];
 }
 
-ext::value& ext::value::operator[](index_type const& index) {
+ext::value& value::operator[](index_type const& index) {
     ASSERT(_type == ext::value_type::array);
     return array_value()[index];
 }
 
-bool ext::value::operator==(ext::value const& value) const {
+bool value::operator==(ext::value const& value) const {
     if (_type == value._type) {
         if (_type == ext::value_type::null) {
             return true;
@@ -145,244 +145,244 @@ bool ext::value::operator==(ext::value const& value) const {
     }
 }
 
-bool ext::value::operator!=(ext::value const& value) const {
+bool value::operator!=(ext::value const& value) const {
     return !operator==(value);
 }
 
-ext::value_type const& ext::value::type() const {
+ext::value_type const& value::type() const {
     return _type;
 }
 
-ext::value::boolean_type const& ext::value::boolean_value() const {
+value::boolean_type const& value::boolean_value() const {
     ASSERT(_type == ext::value_type::boolean);
-    return *(static_cast<ext::value::boolean_type*>(_data));
+    return *(static_cast<value::boolean_type*>(_data));
 }
 
-ext::value::number_type const& ext::value::number_value() const {
+value::number_type const& value::number_value() const {
     ASSERT(_type == ext::value_type::number);
-    return *(static_cast<ext::value::number_type*>(_data));
+    return *(static_cast<value::number_type*>(_data));
 }
 
-ext::value::string_type const& ext::value::string_value() const {
+value::string_type const& value::string_value() const {
     ASSERT(_type == ext::value_type::string);
-    return *(static_cast<ext::value::string_type*>(_data));
+    return *(static_cast<value::string_type*>(_data));
 }
 
-ext::value::object_type const& ext::value::object_value() const {
+value::object_type const& value::object_value() const {
     ASSERT(_type == ext::value_type::object);
-    return *(static_cast<ext::value::object_type*>(_data));
+    return *(static_cast<value::object_type*>(_data));
 }
 
-ext::value::array_type const& ext::value::array_value() const {
+value::array_type const& value::array_value() const {
     ASSERT(_type == ext::value_type::array);
-    return *(static_cast<ext::value::array_type*>(_data));
+    return *(static_cast<value::array_type*>(_data));
 }
 
-ext::value::datetime_type const& ext::value::datetime_value() const {
+value::datetime_type const& value::datetime_value() const {
     ASSERT(_type == ext::value_type::datetime);
-    return *(static_cast<ext::value::datetime_type*>(_data));
+    return *(static_cast<value::datetime_type*>(_data));
 }
 
-ext::value::number_type& ext::value::number_value() {
+value::number_type& value::number_value() {
     ASSERT(_type == ext::value_type::number);
-    return *(static_cast<ext::value::number_type*>(_data));
+    return *(static_cast<value::number_type*>(_data));
 }
 
-ext::value::string_type& ext::value::string_value() {
+value::string_type& value::string_value() {
     ASSERT(_type == ext::value_type::string);
-    return *(static_cast<ext::value::string_type*>(_data));
+    return *(static_cast<value::string_type*>(_data));
 }
 
-ext::value::object_type& ext::value::object_value() {
+value::object_type& value::object_value() {
     ASSERT(_type == ext::value_type::object);
-    return *(static_cast<ext::value::object_type*>(_data));
+    return *(static_cast<value::object_type*>(_data));
 }
 
-ext::value::array_type& ext::value::array_value() {
+value::array_type& value::array_value() {
     ASSERT(_type == ext::value_type::array);
-    return *(static_cast<ext::value::array_type*>(_data));
+    return *(static_cast<value::array_type*>(_data));
 }
 
-ext::value::datetime_type& ext::value::datetime_value() {
+value::datetime_type& value::datetime_value() {
     ASSERT(_type == ext::value_type::datetime);
-    return *(static_cast<ext::value::datetime_type*>(_data));
+    return *(static_cast<value::datetime_type*>(_data));
 }
 
-bool ext::value::has(char const* key) const {
+bool value::has(char const* key) const {
     ASSERT(_type == ext::value_type::object);
     return object_value().has(key);
 }
 
-bool ext::value::has(key_type const& key) const {
+bool value::has(key_type const& key) const {
     ASSERT(_type == ext::value_type::object);
     return object_value().has(key);
 }
 
-void ext::value::set_null() {
+void value::set_null() {
     if (_type == ext::value_type::boolean) {
-        delete static_cast<ext::value::boolean_type*>(_data);
+        delete static_cast<value::boolean_type*>(_data);
     } else if (_type == ext::value_type::number) {
-        delete static_cast<ext::value::number_type*>(_data);
+        delete static_cast<value::number_type*>(_data);
     } else if (_type == ext::value_type::string) {
-        delete static_cast<ext::value::string_type*>(_data);
+        delete static_cast<value::string_type*>(_data);
     } else if (_type == ext::value_type::object) {
-        delete static_cast<ext::value::object_type*>(_data);
+        delete static_cast<value::object_type*>(_data);
     } else if (_type == ext::value_type::array) {
-        delete static_cast<ext::value::array_type*>(_data);
+        delete static_cast<value::array_type*>(_data);
     } else if (_type == ext::value_type::datetime) {
-        delete static_cast<ext::value::datetime_type*>(_data);
+        delete static_cast<value::datetime_type*>(_data);
     }
 
     _type = ext::value_type::null;
     _data = nullptr;
 }
 
-void ext::value::set_boolean(boolean_type const& boolean) {
+void value::set_boolean(boolean_type const& boolean) {
     set_null();
     _type = ext::value_type::boolean;
     _data = new boolean_type(boolean);
 }
 
-void ext::value::set_number(number_type const& number) {
+void value::set_number(number_type const& number) {
     set_null();
     _type = ext::value_type::number;
     _data = new number_type(number);
 }
 
-void ext::value::set_string(string_type const& string) {
+void value::set_string(string_type const& string) {
     set_null();
     _type = ext::value_type::string;
     _data = new string_type(string);
 }
 
-void ext::value::set_string(string_type && string) {
+void value::set_string(string_type && string) {
     set_null();
     _type = ext::value_type::string;
     _data = new string_type(std::move(string));
 }
 
-void ext::value::set_object(object_type const& object) {
+void value::set_object(object_type const& object) {
     set_null();
     _type = ext::value_type::object;
     _data = new object_type(object);
 }
 
-void ext::value::set_object(object_type && object) {
+void value::set_object(object_type && object) {
     set_null();
     _type = ext::value_type::object;
     _data = new object_type(std::move(object));
 }
 
-void ext::value::set_array(array_type const& array) {
+void value::set_array(array_type const& array) {
     set_null();
     _type = ext::value_type::array;
     _data = new array_type(array);
 }
 
-void ext::value::set_array(array_type && array) {
+void value::set_array(array_type && array) {
     set_null();
     _type = ext::value_type::array;
     _data = new array_type(std::move(array));
 }
 
-void ext::value::set_datetime(datetime_type const& datetime) {
+void value::set_datetime(datetime_type const& datetime) {
     set_null();
     _type = ext::value_type::datetime;
     _data = new datetime_type(datetime);
 }
 
-int64_t ext::value::int64_value() const {
+int64_t value::int64_value() const {
     ASSERT(_type == ext::value_type::number);
     return number_value();
 }
 
-int32_t ext::value::int32_value() const {
+int32_t value::int32_value() const {
     ASSERT(_type == ext::value_type::number);
     return number_value();
 }
 
-int16_t ext::value::int16_value() const {
+int16_t value::int16_value() const {
     ASSERT(_type == ext::value_type::number);
     return number_value();
 }
 
-int8_t ext::value::int8_value() const {
+int8_t value::int8_value() const {
     ASSERT(_type == ext::value_type::number);
     return number_value();
 }
 
-ext::value ext::value::null() {
+ext::value value::null() {
     return ext::value();
 }
 
-ext::value ext::value::number() {
+ext::value value::number() {
     auto value = ext::value();
     value.set_number(0);
     return value;
 }
 
-ext::value ext::value::boolean() {
+ext::value value::boolean() {
     auto value = ext::value();
     value.set_boolean(false);
     return value;
 }
 
-ext::value ext::value::string() {
+ext::value value::string() {
     auto value = ext::value();
     value.set_string({});
     return value;
 }
 
-ext::value ext::value::object() {
+ext::value value::object() {
     auto value = ext::value();
     value.set_object({});
     return value;
 }
 
-ext::value ext::value::array() {
+ext::value value::array() {
     auto value = ext::value();
     value.set_array({});
     return value;
 }
 
-ext::value ext::value::datetime() {
+ext::value value::datetime() {
     auto value = ext::value();
     value.set_datetime({});
     return value;
 }
 
 
-ext::value ext::value::number(ext::value::number_type const& number) {
+ext::value value::number(value::number_type const& number) {
     auto value = ext::value();
     value.set_number(number);
     return value;
 }
 
-ext::value ext::value::boolean(ext::value::boolean_type const& boolean) {
+ext::value value::boolean(value::boolean_type const& boolean) {
     auto value = ext::value();
     value.set_boolean(boolean);
     return value;
 }
 
-ext::value ext::value::string(ext::value::string_type const& string) {
+ext::value value::string(value::string_type const& string) {
     auto value = ext::value();
     value.set_string(string);
     return value;
 }
 
-ext::value ext::value::object(ext::value::object_type const& object) {
+ext::value value::object(value::object_type const& object) {
     auto value = ext::value();
     value.set_object(object);
     return value;
 }
 
-ext::value ext::value::array(ext::value::array_type const& array) {
+ext::value value::array(value::array_type const& array) {
     auto value = ext::value();
     value.set_array(array);
     return value;
 }
 
-ext::value ext::value::datetime(ext::value::datetime_type const& datetime) {
+ext::value value::datetime(value::datetime_type const& datetime) {
     auto value = ext::value();
     value.set_datetime(datetime);
     return value;

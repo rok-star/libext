@@ -2,7 +2,7 @@
 
 namespace ext {
 
-ext::datetime::datetime()
+datetime::datetime()
     : _year(0)
     , _month(0)
     , _date(0)
@@ -16,7 +16,7 @@ ext::datetime::datetime()
     ;
 }
 
-ext::datetime::datetime(double time)
+datetime::datetime(double time)
     : _year(0)
     , _month(0)
     , _date(0)
@@ -30,7 +30,7 @@ ext::datetime::datetime(double time)
     ;
 }
 
-ext::datetime::datetime(ext::datetime const& datetime)
+datetime::datetime(ext::datetime const& datetime)
     : _year(datetime._year)
     , _month(datetime._month)
     , _date(datetime._date)
@@ -41,7 +41,7 @@ ext::datetime::datetime(ext::datetime const& datetime)
     , _millisecond(datetime._millisecond)
     , _time(datetime._time) {}
 
-ext::datetime& ext::datetime::operator=(ext::datetime const& datetime) {
+ext::datetime& datetime::operator=(ext::datetime const& datetime) {
     _year = datetime._year;
     _month = datetime._month;
     _date = datetime._date;
@@ -54,7 +54,7 @@ ext::datetime& ext::datetime::operator=(ext::datetime const& datetime) {
     return *this;
 }
 
-bool ext::datetime::operator==(ext::datetime const& datetime) const {
+bool datetime::operator==(ext::datetime const& datetime) const {
     return (_year == datetime._year)
         && (_month == datetime._month)
         && (_date == datetime._date)
@@ -66,55 +66,55 @@ bool ext::datetime::operator==(ext::datetime const& datetime) const {
         && (_time == datetime._time);
 }
 
-bool ext::datetime::operator!=(ext::datetime const& datetime) const {
+bool datetime::operator!=(ext::datetime const& datetime) const {
     return !operator==(datetime);
 }
 
-int64_t const& ext::datetime::year() const {
+int64_t const& datetime::year() const {
     return _year;
 }
 
-int64_t const& ext::datetime::month() const {
+int64_t const& datetime::month() const {
     return _month;
 }
 
-int64_t const& ext::datetime::date() const {
+int64_t const& datetime::date() const {
     return _date;
 }
 
-int64_t const& ext::datetime::day() const {
+int64_t const& datetime::day() const {
     return _day;
 }
 
-int64_t const& ext::datetime::hour() const {
+int64_t const& datetime::hour() const {
     return _hour;
 }
 
-int64_t const& ext::datetime::minute() const {
+int64_t const& datetime::minute() const {
     return _minute;
 }
 
-int64_t const& ext::datetime::second() const {
+int64_t const& datetime::second() const {
     return _second;
 }
 
-int64_t const& ext::datetime::millisecond() const {
+int64_t const& datetime::millisecond() const {
     return _millisecond;
 }
 
-double const& ext::datetime::time() const {
+double const& datetime::time() const {
     return _time;
 }
 
-ext::datetime ext::datetime::local() const {
+ext::datetime datetime::local() const {
     return {};
 }
 
-ext::datetime ext::datetime::add(int64_t num, ext::datetime_part const& part) const {
+ext::datetime datetime::add(int64_t num, ext::datetime_part const& part) const {
     return {};
 }
 
-ext::datetime ext::datetime::subtract(int64_t num, ext::datetime_part const& part) const {
+ext::datetime datetime::subtract(int64_t num, ext::datetime_part const& part) const {
     return {};
 }
 

@@ -58,87 +58,87 @@ public:
 };
 
 template<typename K, typename V>
-inline ext::pair<K, V>::pair()
+inline pair<K, V>::pair()
     : _key()
     , _value() {}
 
 template<typename K, typename V>
-inline ext::pair<K, V>::pair(K const& key, V const& value)
+inline pair<K, V>::pair(K const& key, V const& value)
     : _key(key)
     , _value(value) {}
 
 template<typename K, typename V>
-inline ext::pair<K, V>::pair(K const& key, V && value)
+inline pair<K, V>::pair(K const& key, V && value)
     : _key(key)
     , _value(std::move(value)) {}
 
 template<typename K, typename V>
-inline ext::pair<K, V>::pair(K && key, V const& value)
+inline pair<K, V>::pair(K && key, V const& value)
     : _key(std::move(key))
     , _value(value) {}
 
 template<typename K, typename V>
-inline ext::pair<K, V>::pair(K && key, V && value)
+inline pair<K, V>::pair(K && key, V && value)
     : _key(std::move(key))
     , _value(std::move(value)) {}
 
 template<typename K, typename V>
-inline ext::pair<K, V>::pair(ext::pair<K, V> const& pair)
+inline pair<K, V>::pair(ext::pair<K, V> const& pair)
     : _key(pair._key)
     , _value(pair._value) {}
 
 template<typename K, typename V>
-inline ext::pair<K, V>::pair(ext::pair<K, V> && pair)
+inline pair<K, V>::pair(ext::pair<K, V> && pair)
     : _key(std::move(pair._key))
     , _value(std::move(pair._value)) {}
 
 template<typename K, typename V>
-inline ext::pair<K, V>& ext::pair<K, V>::operator=(ext::pair<K, V> const& pair) {
+inline ext::pair<K, V>& pair<K, V>::operator=(ext::pair<K, V> const& pair) {
     _key = pair._key;
     _value = pair._value;
     return *this;
 }
 
 template<typename K, typename V>
-inline ext::pair<K, V>& ext::pair<K, V>::operator=(ext::pair<K, V> && pair) {
+inline ext::pair<K, V>& pair<K, V>::operator=(ext::pair<K, V> && pair) {
     _key = std::move(pair._key);
     _value = std::move(pair._value);
     return *this;
 }
 
 template<typename K, typename V>
-inline bool ext::pair<K, V>::operator==(ext::pair<K, V> const& pair) const {
+inline bool pair<K, V>::operator==(ext::pair<K, V> const& pair) const {
     return (_key == pair._key)
         && (_value == pair._value);
 }
 
 template<typename K, typename V>
-inline bool ext::pair<K, V>::operator!=(ext::pair<K, V> const& pair) const {
+inline bool pair<K, V>::operator!=(ext::pair<K, V> const& pair) const {
     return !operator==(pair);
 }
 
 template<typename K, typename V>
-inline K const& ext::pair<K, V>::key() const {
+inline K const& pair<K, V>::key() const {
     return _key;
 }
 
 template<typename K, typename V>
-inline V const& ext::pair<K, V>::value() const {
+inline V const& pair<K, V>::value() const {
     return _value;
 }
 
 template<typename K, typename V>
-inline K& ext::pair<K, V>::key() {
+inline K& pair<K, V>::key() {
     return _key;
 }
 
 template<typename K, typename V>
-inline V& ext::pair<K, V>::value() {
+inline V& pair<K, V>::value() {
     return _value;
 }
 
 template<typename K, typename V>
-inline int64_t ext::map<K, V>::_find_index(K const& key) const {
+inline int64_t map<K, V>::_find_index(K const& key) const {
     for (int64_t i = 0; i < _data.size(); i++)
         if (_data[i].key() == key)
             return i;
@@ -146,67 +146,67 @@ inline int64_t ext::map<K, V>::_find_index(K const& key) const {
 }
 
 template<typename K, typename V>
-inline ext::map<K, V>::map()
+inline map<K, V>::map()
     : _data() {}
 
 template<typename K, typename V>
-inline ext::map<K, V>::map(std::initializer_list<ext::pair<K, V>> const& pairs)
+inline map<K, V>::map(std::initializer_list<ext::pair<K, V>> const& pairs)
     : _data(pairs) {}
 
 template<typename K, typename V>
-inline ext::map<K, V>::map(ext::map<K, V> const& map)
+inline map<K, V>::map(ext::map<K, V> const& map)
     : _data(map._data) {}
 
 template<typename K, typename V>
-inline ext::map<K, V>::map(ext::map<K, V> && map)
+inline map<K, V>::map(ext::map<K, V> && map)
     : _data(std::move(map._data)) {}
 
 template<typename K, typename V>
-inline ext::map<K, V>& ext::map<K, V>::operator=(ext::map<K, V> const& map) {
+inline ext::map<K, V>& map<K, V>::operator=(ext::map<K, V> const& map) {
     if (this != &map)
         _data = map._data;
     return *this;
 }
 
 template<typename K, typename V>
-inline ext::map<K, V>& ext::map<K, V>::operator=(ext::map<K, V> && map) {
+inline ext::map<K, V>& map<K, V>::operator=(ext::map<K, V> && map) {
     if (this != &map)
         _data = std::move(map._data);
     return *this;
 }
 
 template<typename K, typename V>
-inline V const& ext::map<K, V>::operator[](K const& key) const {
+inline V const& map<K, V>::operator[](K const& key) const {
     return get(key);
 }
 
 template<typename K, typename V>
-inline V& ext::map<K, V>::operator[](K const& key) {
+inline V& map<K, V>::operator[](K const& key) {
     return get(key);
 }
 
 template<typename K, typename V>
-inline bool ext::map<K, V>::operator==(ext::map<K, V> const& map) const {
+inline bool map<K, V>::operator==(ext::map<K, V> const& map) const {
     return (_data == map._data);
 }
 
 template<typename K, typename V>
-inline bool ext::map<K, V>::operator!=(ext::map<K, V> const& map) const {
+inline bool map<K, V>::operator!=(ext::map<K, V> const& map) const {
     return !operator==(map);
 }
 
 template<typename K, typename V>
-inline ext::array<ext::pair<K, V>> const& ext::map<K, V>::data() const {
+inline ext::array<ext::pair<K, V>> const& map<K, V>::data() const {
     return _data;
 }
 
 template<typename K, typename V>
-inline ext::array<ext::pair<K, V>>& ext::map<K, V>::data() {
+inline ext::array<ext::pair<K, V>>& map<K, V>::data() {
     return _data;
 }
 
 template<typename K, typename V>
-inline bool ext::map<K, V>::has(K const& key) const {
+inline bool map<K, V>::has(K const& key) const {
     for (ext::pair<K, V> const& pair : _data) {
         if (pair.key() == key) {
             return true;
@@ -216,21 +216,21 @@ inline bool ext::map<K, V>::has(K const& key) const {
 }
 
 template<typename K, typename V>
-inline V const& ext::map<K, V>::get(K const& key) const {
+inline V const& map<K, V>::get(K const& key) const {
     int64_t index = _find_index(key);
     ASSERT(index > -1);
     return _data[index].value();
 }
 
 template<typename K, typename V>
-inline V& ext::map<K, V>::get(K const& key) {
+inline V& map<K, V>::get(K const& key) {
     int64_t index = _find_index(key);
     ASSERT(index > -1);
     return _data[index].value();
 }
 
 template<typename K, typename V>
-inline ext::map<K, V>& ext::map<K, V>::set(K const& key, V const& value) {
+inline ext::map<K, V>& map<K, V>::set(K const& key, V const& value) {
     int64_t index = _find_index(key);
     if (index > -1) {
         _data[index].value() = value;
@@ -241,7 +241,7 @@ inline ext::map<K, V>& ext::map<K, V>::set(K const& key, V const& value) {
 }
 
 template<typename K, typename V>
-inline ext::map<K, V>& ext::map<K, V>::set(K const& key, V && value) {
+inline ext::map<K, V>& map<K, V>::set(K const& key, V && value) {
     int64_t index = _find_index(key);
     if (index > -1) {
         _data[index].value() = std::move(value);

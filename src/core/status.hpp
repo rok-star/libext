@@ -29,7 +29,7 @@ public:
 };
 
 template<typename T, typename... A>
-inline void ext::status::add_failure(char const* fmt, T const& head, A const&... tail) {
+inline void status::add_failure(char const* fmt, T const& head, A const&... tail) {
     _type = ext::status_type::failure;
     _message = (_message.empty() == false)
                 ? (ext::string::format(fmt, head, tail...) + ": " + _message)

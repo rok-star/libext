@@ -2,53 +2,53 @@
 
 namespace ext {
 
-ext::string::string()
+string::string()
     : _data() {}
 
-ext::string::string(ext::string const& string)
+string::string(ext::string const& string)
     : _data(string._data) {}
 
-ext::string::string(ext::string && string)
+string::string(ext::string && string)
     : _data(std::move(string._data)) {}
 
-ext::string::string(ext::array<char> const& array)
+string::string(ext::array<char> const& array)
     : _data(array) {}
 
-ext::string::string(ext::array<char> && array)
+string::string(ext::array<char> && array)
     : _data(std::move(array)) {}
 
-ext::string::string(char const* pchar)
+string::string(char const* pchar)
     : _data(pchar, strlen(pchar)) {}
 
-ext::string::string(char const* pchar, int64_t len)
+string::string(char const* pchar, int64_t len)
     : _data(pchar, len) {}
 
-ext::string& ext::string::operator=(ext::string const& string) {
+ext::string& string::operator=(ext::string const& string) {
     _data = string._data;
     return *this;
 }
 
-ext::string& ext::string::operator=(ext::string && string) {
+ext::string& string::operator=(ext::string && string) {
     _data = std::move(string._data);
     return *this;
 }
 
-ext::string& ext::string::operator+=(ext::string const& string) {
+ext::string& string::operator+=(ext::string const& string) {
     _data.push(string._data);
     return *this;
 }
 
-ext::string& ext::string::operator+=(char const* pchar) {
+ext::string& string::operator+=(char const* pchar) {
     _data.push(ext::string(pchar)._data);
     return *this;
 }
 
-ext::string& ext::string::operator+=(char const char_) {
+ext::string& string::operator+=(char const char_) {
     _data.push(char_);
     return *this;
 }
 
-ext::string ext::string::operator+(ext::string const& string) const {
+ext::string string::operator+(ext::string const& string) const {
     ext::string ret;
     ret.data().reserve(_data.size() + string._data.size());
     ret.data().push(_data);
@@ -56,7 +56,7 @@ ext::string ext::string::operator+(ext::string const& string) const {
     return ret;
 }
 
-ext::string ext::string::operator+(char const* pchar) const {
+ext::string string::operator+(char const* pchar) const {
     ext::string ret;
     ext::string string(pchar);
     ret.data().reserve(_data.size() + string._data.size());
@@ -65,7 +65,7 @@ ext::string ext::string::operator+(char const* pchar) const {
     return ret;
 }
 
-ext::string ext::string::operator+(char const char_) const {
+ext::string string::operator+(char const char_) const {
     ext::string ret;
     ret.data().reserve(_data.size() + 2);
     ret.data().push(_data);
@@ -73,11 +73,11 @@ ext::string ext::string::operator+(char const char_) const {
     return ret;
 }
 
-bool ext::string::operator==(ext::string const& string) const {
+bool string::operator==(ext::string const& string) const {
     return (_data == string._data);
 }
 
-bool ext::string::operator==(char const* pchar) const {
+bool string::operator==(char const* pchar) const {
     int64_t size = strlen(pchar);
     if (_data.size() == size) {
         for (int64_t i = 0; i < _data.size(); i++) {
@@ -91,23 +91,23 @@ bool ext::string::operator==(char const* pchar) const {
     }
 }
 
-bool ext::string::operator!=(ext::string const& string) const {
+bool string::operator!=(ext::string const& string) const {
     return !operator==(string);
 }
 
-bool ext::string::operator!=(char const* pchar) const {
+bool string::operator!=(char const* pchar) const {
     return !operator==(pchar);
 }
 
-ext::array<char> const& ext::string::data() const {
+ext::array<char> const& string::data() const {
     return _data;
 }
 
-ext::array<char>& ext::string::data() {
+ext::array<char>& string::data() {
     return _data;
 }
 
-int64_t ext::string::size() const {
+int64_t string::size() const {
     int64_t ret = 0;
     for (int64_t i = 0; i < _data.size(); i++) {
         if ((_data[i] & 0xc0) != 0x80) {
@@ -117,67 +117,67 @@ int64_t ext::string::size() const {
     return ret;
 }
 
-int64_t ext::string::index_of(ext::string const& string, int64_t start) const {
+int64_t string::index_of(ext::string const& string, int64_t start) const {
     return -1;
 }
 
-int64_t ext::string::index_of(char const* pchar, int64_t start) const {
+int64_t string::index_of(char const* pchar, int64_t start) const {
     return -1;
 }
 
-int64_t ext::string::index_of(char const char_, int64_t start) const {
+int64_t string::index_of(char const char_, int64_t start) const {
     return -1;
 }
 
-int64_t ext::string::index_of_last(ext::string const& string, int64_t start) const {
+int64_t string::index_of_last(ext::string const& string, int64_t start) const {
     return -1;
 }
 
-int64_t ext::string::index_of_last(char const* pchar, int64_t start) const {
+int64_t string::index_of_last(char const* pchar, int64_t start) const {
     return -1;
 }
 
-int64_t ext::string::index_of_last(char const char_, int64_t start) const {
+int64_t string::index_of_last(char const char_, int64_t start) const {
     return -1;
 }
 
-bool ext::string::contains(ext::string const& string) const {
+bool string::contains(ext::string const& string) const {
     return false;
 }
 
-bool ext::string::contains(char const* pchar) const {
+bool string::contains(char const* pchar) const {
     return false;
 }
 
-bool ext::string::contains(char const char_) const {
+bool string::contains(char const char_) const {
     return false;
 }
 
-bool ext::string::starts_with(ext::string const& string) const {
+bool string::starts_with(ext::string const& string) const {
     return false;
 }
 
-bool ext::string::starts_with(char const* pchar) const {
+bool string::starts_with(char const* pchar) const {
     return false;
 }
 
-bool ext::string::starts_with(char const char_) const {
+bool string::starts_with(char const char_) const {
     return false;
 }
 
-bool ext::string::ends_with(ext::string const& string) const {
+bool string::ends_with(ext::string const& string) const {
     return false;
 }
 
-bool ext::string::ends_with(char const* pchar) const {
+bool string::ends_with(char const* pchar) const {
     return false;
 }
 
-bool ext::string::ends_with(char const char_) const {
+bool string::ends_with(char const char_) const {
     return false;
 }
 
-ext::string ext::string::substr(int64_t index, int64_t size) const {
+ext::string string::substr(int64_t index, int64_t size) const {
     index = (index < 0) ? 0 : index;
     size = (size < 0) ? 0 : size;
     int64_t index_ = -1;
@@ -209,59 +209,59 @@ ext::string ext::string::substr(int64_t index, int64_t size) const {
         : ext::string();
 }
 
-ext::string ext::string::slice(int64_t start, int64_t end) const {
+ext::string string::slice(int64_t start, int64_t end) const {
 	return ext::string();
 }
 
-ext::string ext::string::first() const {
+ext::string string::first() const {
     ASSERT(size() > 0);
     return substr(0, 1);
 }
 
-ext::string ext::string::last() const {
+ext::string string::last() const {
     ASSERT(size() > 0);
     return substr(size() - 1, 1);
 }
 
-ext::string ext::string::first_or(ext::string const& string) const {
+ext::string string::first_or(ext::string const& string) const {
     return (size() > 0) ? substr(0, 1) : string;
 }
 
-ext::string ext::string::last_or(ext::string const& string) const {
+ext::string string::last_or(ext::string const& string) const {
     int64_t size_ = size();
     return (size_ > 0) ? substr(size_ - 1, 1) : string;
 }
 
-ext::string& ext::string::clear() {
+ext::string& string::clear() {
     _data.clear();
     return *this;
 }
 
-ext::string& ext::string::push(char char_) {
+ext::string& string::push(char char_) {
     _data.push(char_);
     return *this;
 }
 
-ext::string& ext::string::push(ext::string const& string) {
+ext::string& string::push(ext::string const& string) {
     _data.push(string._data);
     return *this;
 }
 
-ext::string& ext::string::unshift(char char_) {
+ext::string& string::unshift(char char_) {
     _data.unshift(char_);
     return *this;
 }
 
-ext::string& ext::string::unshift(ext::string const& string) {
+ext::string& string::unshift(ext::string const& string) {
     _data.unshift(string._data);
     return *this;
 }
 
-bool ext::string::empty() const {
+bool string::empty() const {
     return _data.empty();
 }
 
-bool ext::string::whitespace() const {
+bool string::whitespace() const {
     return false;
     // if (_data.size() > 0) {
     //     int64_t read = 0;
@@ -278,7 +278,7 @@ bool ext::string::whitespace() const {
     // }
 }
 
-bool ext::string::digital()  const{
+bool string::digital()  const{
     return false;
     // if (_data.size() > 0) {
     //     int64_t read = 0;
@@ -295,27 +295,27 @@ bool ext::string::digital()  const{
     // }
 }
 
-ext::string ext::string::upper() const {
+ext::string string::upper() const {
     return ext::string();
 }
 
-ext::string ext::string::lower() const {
+ext::string string::lower() const {
     return ext::string();
 }
 
-ext::array<ext::string> ext::string::split() const {
+ext::array<ext::string> string::split() const {
     return {};
 }
 
-ext::array<ext::string> ext::string::split(char const* sep) const {
+ext::array<ext::string> string::split(char const* sep) const {
     return {};
 }
 
-ext::array<ext::string> ext::string::split(ext::string const& sep) const {
+ext::array<ext::string> string::split(ext::string const& sep) const {
     return {};
 }
 
-char const* ext::string::c_string() const {
+char const* string::c_string() const {
     static char const* _empty = "";
     if (_data.empty()) {
         return _empty;
@@ -326,7 +326,7 @@ char const* ext::string::c_string() const {
     }
 }
 
-ext::array<uint32_t> ext::string::codepoints() const {
+ext::array<uint32_t> string::codepoints() const {
     return {};
     // ext::array<uint32_t> ret;
     // ret.reserve(size());
@@ -339,7 +339,7 @@ ext::array<uint32_t> ext::string::codepoints() const {
     // return ret;
 }
 
-ext::string ext::string::from_codepoints(ext::array<uint32_t> const& codepoints) {
+ext::string string::from_codepoints(ext::array<uint32_t> const& codepoints) {
     return {};
     // int64_t pos = 0;
     // int64_t len = 0;
@@ -348,18 +348,18 @@ ext::string ext::string::from_codepoints(ext::array<uint32_t> const& codepoints)
     // char* ret = ext::alloc<char>(len + 1);
     // for (uint32_t const& codepoint : codepoints)
     //     pos += ext::codepoint_write_utf8(codepoint, (ret + pos), (len - pos));
-    // return ext::string::with_pchar(ret, len, (len + 1));
+    // return string::with_pchar(ret, len, (len + 1));
 }
 
-ext::string ext::string::with_pchar(char* pchar, int64_t size) {
+ext::string string::with_pchar(char* pchar, int64_t size) {
     return ext::string(ext::array<char>::with_data(pchar, size, size));
 }
 
-ext::string ext::string::with_pchar(char* pchar, int64_t size, int64_t capacity) {
+ext::string string::with_pchar(char* pchar, int64_t size, int64_t capacity) {
     return ext::string(ext::array<char>::with_data(pchar, size, capacity));
 }
 
-ext::string ext::string::with_capacity(int64_t capacity) {
+ext::string string::with_capacity(int64_t capacity) {
     ext::string ret;
     ret.data().reserve(capacity);
     return ret;
