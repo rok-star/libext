@@ -1,6 +1,6 @@
 #include <vector>
 #include <iostream>
-#include "Editor/Components/DOM/Document.hpp"
+#include <libext/dom/document.hpp>
 
 namespace raz {
 

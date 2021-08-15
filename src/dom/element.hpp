@@ -1,10 +1,12 @@
 #pragma once
 
-#include <vector>
-#include <string>
-#include <optional>
 #include <cinttypes>
 #include <libext/core/math.hpp>
+#include <libext/core/string.hpp>
+#include <libext/core/optional.hpp>
+#include <libext/gfx/context.hpp>
+#include <libext/gfx/image.hpp>
+#include <libext/gfx/color.hpp>
 
 namespace ext::dom {
 
@@ -37,7 +39,7 @@ enum class element_justify_children {
 };
 
 enum class element_background_position {
-    default,
+    default_,
     stretch,
     cover,
     fit
@@ -97,12 +99,12 @@ private:
     void _adjust(
         ext::gfx::context const& context,
         ext::dom::document const& document,
-        ext::dom::Point const& origin
+        ext::point<double> const& origin
     );
     void _render(
         ext::gfx::context& context,
         ext::dom::document const& document,
-        ext::dom::Point const& origin
+        ext::point<double> const& origin
     );
 public:
     element(ext::dom::element const&) = delete;

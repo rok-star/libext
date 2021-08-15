@@ -55,16 +55,18 @@ app::app(ext::ui::app_options const& options)
                 [appMenu setTitle: [NSString stringWithCString: options.title.c_string() encoding: NSUTF8StringEncoding]];
             }
             onExit: [&](){
-                auto event = ext::ui::app_event();
-                event._type = ext::ui::app_event_type::exit;
-                _events.push(event);
+                _events.push(
+                    ext::ui::event::basic_event(
+                        ext::ui::event_type::exit
+                    )
+                );
             }
         ]
     ];
     [NSApp finishLaunching];
 }
 
-ext::array<ext::ui::app_event> const& app::poll(ext::ui::app_poll_options const& options) {
+ext::array<ext::ui::event> const& app::poll(ext::ui::app_poll_options const& options) {
     _events.clear();
 
     auto timeout = options.timeout;

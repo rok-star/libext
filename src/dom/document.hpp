@@ -5,7 +5,7 @@
 
 namespace ext::dom {
 
-class document final : public ext::dom::dlement {
+class document final : public ext::dom::element {
 private:
     bool _keep_update;
 public:

@@ -1,14 +1,11 @@
 #include <iostream>
-#include <fmt/core.h>
-#include "Editor/Components/DOM/Document.hpp"
-#include "Editor/Components/DOM/Element.hpp"
-#include "Helpers/Vector.hpp"
+#include <libext/dom/element.hpp>
 
-namespace raz {
+namespace ext::dom {
 
-Element::~Element() {}
+element::~element() {}
 
-Element::Element()
+element::element()
     : _label("")
     , _clientRect({ 0, 0, 0, 0 })
     , _marginRect({ 0, 0, 0, 0 })
@@ -52,20 +49,20 @@ Element::Element()
     , _backgroundImage(std::nullopt)
     , _backgroundPosition(std::nullopt) {}
 
-void Element::_update(
-    sf::RenderWindow const& window,
-    raz::Document const& document,
-    std::optional<double> const& width,
-    std::optional<double> const& height
+void element::_update(
+    ext::gfx::context const& context,
+    ext::dom::document const& document,
+    ext::optional<double> const& width,
+    ext::optional<double> const& height
 ) {
     _clientRect = { 0.0, 0.0, 0.0, 0.0 };
     _marginRect = { 0.0, 0.0, 0.0, 0.0 };
     _contentSize = { 0.0, 0.0 };
 
-    auto const position = _position.value_or(raz::ElementPosition::Relative);
-    auto const direction = _direction.value_or(raz::ElementDirection::Column);
-    auto const alignChildren = _alignChildren.value_or(raz::ElementAlignChildren::Start);
-    auto const justifyChildren = _justifyChildren.value_or(raz::ElementJustifyChildren::Start);
+    auto const position = _position.value_or(ext::dom::ElementPosition::Relative);
+    auto const direction = _direction.value_or(ext::dom::ElementDirection::Column);
+    auto const alignChildren = _alignChildren.value_or(ext::dom::ElementAlignChildren::Start);
+    auto const justifyChildren = _justifyChildren.value_or(ext::dom::ElementJustifyChildren::Start);
     auto const paddingLeft = _paddingLeft.value_or(0.0);
     auto const paddingTop = _paddingTop.value_or(0.0);
     auto const paddingRight = _paddingRight.value_or(0.0);
@@ -104,7 +101,7 @@ void Element::_update(
     auto const resolveSize = [&]() {
         _contentSize = { 0.0, 0.0 };
 
-        if (direction == raz::ElementDirection::Column) {
+        if (direction == ext::dom::ElementDirection::Column) {
             for (auto& child : _children) {
                 _contentSize.width = std::max(_contentSize.width, child->_marginRect.size.width);
                 _contentSize.height += child->_marginRect.size.height;
@@ -131,16 +128,16 @@ void Element::_update(
     };
 
     auto const getRemained = [&]() {
-        if (direction == raz::ElementDirection::Column) {
+        if (direction == ext::dom::ElementDirection::Column) {
             return ((_clientRect.size.height - paddingHeight) - _contentSize.height);
         } else {
             return ((_clientRect.size.width - paddingWidth) - _contentSize.width);
         }
     };
 
-    auto const getOccupied = [&](std::vector<raz::Element*> const& items) {
+    auto const getOccupied = [&](std::vector<ext::dom::element*> const& items) {
         auto ret = 0.0;
-        if (direction == raz::ElementDirection::Column) {
+        if (direction == ext::dom::ElementDirection::Column) {
             for (auto& child : items) {
                 ret += child->_marginRect.size.height;
             }
@@ -152,17 +149,17 @@ void Element::_update(
         return ret;
     };
 
-    auto childWidth = std::optional<double>(std::nullopt);
-    auto childHeight = std::optional<double>(std::nullopt);
+    auto childWidth = ext::optional<double>(std::nullopt);
+    auto childHeight = ext::optional<double>(std::nullopt);
 
-    if (alignChildren == raz::ElementAlignChildren::Stretch) {
-        if ((direction == raz::ElementDirection::Column)
+    if (alignChildren == ext::dom::ElementAlignChildren::Stretch) {
+        if ((direction == ext::dom::ElementDirection::Column)
         && (width.has_value() == true)) {
             applyWidth();
             childWidth = (_clientRect.size.width - paddingWidth);
         }
 
-        if ((direction == raz::ElementDirection::Row)
+        if ((direction == ext::dom::ElementDirection::Row)
         && (height.has_value() == true)) {
             applyHeight();
             childHeight = (_clientRect.size.height - paddingHeight);
@@ -170,14 +167,14 @@ void Element::_update(
     }
 
     auto const updateChildren = [&]() {
-        raz::Element* prev = nullptr;
+        ext::dom::element* prev = nullptr;
 
         for (auto& child : _children) {
             child->_update(
-                window,
+                context,
                 document,
-                ((direction == raz::ElementDirection::Column) ? childWidth : std::nullopt),
-                ((direction == raz::ElementDirection::Row) ? childHeight : std::nullopt)
+                ((direction == ext::dom::ElementDirection::Column) ? childWidth : std::nullopt),
+                ((direction == ext::dom::ElementDirection::Row) ? childHeight : std::nullopt)
             );
 
             prev = child;
@@ -187,12 +184,12 @@ void Element::_update(
     };
 
     auto const adjustChildren = [&]() {
-        raz::Element* prev = nullptr;
+        ext::dom::element* prev = nullptr;
 
-        if (direction == raz::ElementDirection::Column) {
+        if (direction == ext::dom::ElementDirection::Column) {
             for (auto& child : _children) {
                 child->_adjust(
-                    window,
+                    context,
                     document,
                     {
                         paddingLeft,
@@ -205,7 +202,7 @@ void Element::_update(
         } else {
             for (auto& child : _children) {
                 child->_adjust(
-                    window,
+                    context,
                     document,
                     {
                         ((prev != nullptr) ? prev->_marginRect.right() : paddingLeft),
@@ -220,21 +217,21 @@ void Element::_update(
 
     updateChildren();
 
-    if (alignChildren == raz::ElementAlignChildren::Stretch) {
-        if ((direction == raz::ElementDirection::Column)
+    if (alignChildren == ext::dom::ElementAlignChildren::Stretch) {
+        if ((direction == ext::dom::ElementDirection::Column)
         && (childWidth.has_value() == false)) {
             childWidth = (_clientRect.size.width - paddingWidth);
             updateChildren();
         }
 
-        if ((direction == raz::ElementDirection::Row)
+        if ((direction == ext::dom::ElementDirection::Row)
         && (childHeight.has_value() == false)) {
             childHeight = (_clientRect.size.height - paddingHeight);
             updateChildren();
         }
     }
 
-    auto flexItems = std::vector<raz::Element*>();
+    auto flexItems = std::vector<ext::dom::element*>();
 
     for (auto& child : _children) {
         if (child->flex().value_or(false) == true) {
@@ -256,9 +253,9 @@ void Element::_update(
         auto shareable = (getOccupied(flexItems) + remained);
         auto share = (shareable / static_cast<double>(flexItems.size()));
 
-        if (direction == raz::ElementDirection::Column) {
+        if (direction == ext::dom::ElementDirection::Column) {
             for (int64_t i = (flexItems.size() - 1); i >= 0; i--) {
-                flexItems[i]->_update(window, document, childWidth, share);
+                flexItems[i]->_update(context, document, childWidth, share);
 
                 if (flexItems[i]->_marginRect.size.height != share) {
                     help::removeIndex(flexItems, i);
@@ -266,7 +263,7 @@ void Element::_update(
             }
         } else {
             for (int64_t i = (flexItems.size() - 1); i >= 0; i--) {
-                flexItems[i]->_update(window, document, share, childHeight);
+                flexItems[i]->_update(context, document, share, childHeight);
 
                 if (flexItems[i]->_marginRect.size.width != share) {
                     help::removeIndex(flexItems, i);
@@ -282,10 +279,10 @@ void Element::_update(
     adjustChildren();
 }
 
-void Element::_adjust(
-    sf::RenderWindow const& window,
-    raz::Document const& document,
-    raz::Point const& origin
+void element::_adjust(
+    ext::gfx::context const& context,
+    ext::dom::document const& document,
+    ext::dom::Point const& origin
 ) {
     _marginRect.origin = {
         origin.x,
@@ -298,12 +295,12 @@ void Element::_adjust(
     };
 }
 
-void Element::_render(
-    sf::RenderWindow& window,
-    raz::Document const& document,
-    raz::Point const& origin
+void element::_render(
+    ext::gfx::context& context,
+    ext::dom::document const& document,
+    ext::dom::Point const& origin
 ) {
-    auto rect = raz::Rect({
+    auto rect = ext::dom::Rect({
         .origin = (_clientRect.origin + origin),
         .size = _clientRect.size
     });
@@ -326,335 +323,335 @@ void Element::_render(
     }
 
     if (draw) {
-        window.draw(shape);
+        context.draw(shape);
     }
 
     for (auto& child : _children) {
-        child->_render(window, document, rect.origin);
+        child->_render(context, document, rect.origin);
     }
 }
 
-std::string const& Element::label() const {
+std::string const& element::label() const {
     return _label;
 }
 
-raz::Rect const& Element::clientRect() const {
+ext::dom::Rect const& element::clientRect() const {
     return _clientRect;
 }
 
-raz::Rect const& Element::marginRect() const {
+ext::dom::Rect const& element::marginRect() const {
     return _marginRect;
 }
 
-raz::Size const& Element::contentSize() const {
+ext::dom::Size const& element::contentSize() const {
     return _contentSize;
 }
 
-std::vector<Element*> const& Element::children() const {
+std::vector<element*> const& element::children() const {
     return _children;
 }
 
-raz::Element const* Element::parent() const {
+ext::dom::element const* element::parent() const {
     return _parent;
 }
 
-raz::Element* Element::parent() {
+ext::dom::element* element::parent() {
     return _parent;
 }
 
-std::optional<bool> const& Element::flex() const {
+ext::optional<bool> const& element::flex() const {
     return _flex;
 }
 
-std::optional<double> const& Element::width() const {
+ext::optional<double> const& element::width() const {
     return _width;
 }
 
-std::optional<double> const& Element::height() const {
+ext::optional<double> const& element::height() const {
     return _height;
 }
 
-std::optional<double> const& Element::left() const {
+ext::optional<double> const& element::left() const {
     return _left;
 }
 
-std::optional<double> const& Element::top() const {
+ext::optional<double> const& element::top() const {
     return _top;
 }
 
-std::optional<double> const& Element::right() const {
+ext::optional<double> const& element::right() const {
     return _right;
 }
 
-std::optional<double> const& Element::bottom() const {
+ext::optional<double> const& element::bottom() const {
     return _bottom;
 }
 
-std::optional<double> const& Element::maxWidth() const {
+ext::optional<double> const& element::maxWidth() const {
     return _maxWidth;
 }
 
-std::optional<double> const& Element::minWidth() const {
+ext::optional<double> const& element::minWidth() const {
     return _minWidth;
 }
 
-std::optional<double> const& Element::maxHeight() const {
+ext::optional<double> const& element::maxHeight() const {
     return _maxHeight;
 }
 
-std::optional<double> const& Element::minHeight() const {
+ext::optional<double> const& element::minHeight() const {
     return _minHeight;
 }
 
-std::optional<double> const& Element::marginLeft() const {
+ext::optional<double> const& element::marginLeft() const {
     return _marginLeft;
 }
 
-std::optional<double> const& Element::marginTop() const {
+ext::optional<double> const& element::marginTop() const {
     return _marginTop;
 }
 
-std::optional<double> const& Element::marginRight() const {
+ext::optional<double> const& element::marginRight() const {
     return _marginRight;
 }
 
-std::optional<double> const& Element::marginBottom() const {
+ext::optional<double> const& element::marginBottom() const {
     return _marginBottom;
 }
 
-std::optional<double> const& Element::paddingLeft() const {
+ext::optional<double> const& element::paddingLeft() const {
     return _paddingLeft;
 }
 
-std::optional<double> const& Element::paddingTop() const {
+ext::optional<double> const& element::paddingTop() const {
     return _paddingTop;
 }
 
-std::optional<double> const& Element::paddingRight() const {
+ext::optional<double> const& element::paddingRight() const {
     return _paddingRight;
 }
 
-std::optional<double> const& Element::paddingBottom() const {
+ext::optional<double> const& element::paddingBottom() const {
     return _paddingBottom;
 }
 
-std::optional<raz::ElementPosition> const& Element::position() const {
+ext::optional<ext::dom::ElementPosition> const& element::position() const {
     return _position;
 }
 
-std::optional<raz::ElementDirection> const& Element::direction() const {
+ext::optional<ext::dom::ElementDirection> const& element::direction() const {
     return _direction;
 }
 
-std::optional<raz::ElementAlignChildren> const& Element::alignChildren() const {
+ext::optional<ext::dom::ElementAlignChildren> const& element::alignChildren() const {
     return _alignChildren;
 }
 
-std::optional<raz::ElementJustifyChildren> const& Element::justifyChildren() const {
+ext::optional<ext::dom::ElementJustifyChildren> const& element::justifyChildren() const {
     return _justifyChildren;
 }
 
-std::optional<sf::Color> const& Element::backgroundColor() const {
+ext::optional<sf::Color> const& element::backgroundColor() const {
     return _backgroundColor;
 }
 
-std::optional<sf::Color> const& Element::borderColor() const {
+ext::optional<sf::Color> const& element::borderColor() const {
     return _borderColor;
 }
 
-std::optional<sf::Color> const& Element::borderLeftColor() const {
+ext::optional<sf::Color> const& element::borderLeftColor() const {
     return _borderLeftColor;
 }
 
-std::optional<sf::Color> const& Element::borderTopColor() const {
+ext::optional<sf::Color> const& element::borderTopColor() const {
     return _borderTopColor;
 }
 
-std::optional<sf::Color> const& Element::borderRightColor() const {
+ext::optional<sf::Color> const& element::borderRightColor() const {
     return _borderRightColor;
 }
 
-std::optional<sf::Color> const& Element::borderBottomColor() const {
+ext::optional<sf::Color> const& element::borderBottomColor() const {
     return _borderBottomColor;
 }
 
-std::optional<double> const& Element::borderWidth() const {
+ext::optional<double> const& element::borderWidth() const {
     return _borderWidth;
 }
 
-std::optional<double> const& Element::borderLeftWidth() const {
+ext::optional<double> const& element::borderLeftWidth() const {
     return _borderLeftWidth;
 }
 
-std::optional<double> const& Element::borderTopWidth() const {
+ext::optional<double> const& element::borderTopWidth() const {
     return _borderTopWidth;
 }
 
-std::optional<double> const& Element::borderRightWidth() const {
+ext::optional<double> const& element::borderRightWidth() const {
     return _borderRightWidth;
 }
 
-std::optional<double> const& Element::borderBottomWidth() const {
+ext::optional<double> const& element::borderBottomWidth() const {
     return _borderBottomWidth;
 }
 
-std::optional<raz::Image*> const& Element::backgroundImage() const {
+ext::optional<ext::dom::Image*> const& element::backgroundImage() const {
     return _backgroundImage;
 }
 
-std::optional<raz::ElementBackgroundPosition> const& Element::backgroundPosition() const {
+ext::optional<ext::dom::ElementBackgroundPosition> const& element::backgroundPosition() const {
     return _backgroundPosition;
 }
 
-void Element::setLabel(std::string const& label) {
+void element::setLabel(std::string const& label) {
     _label = label;
 }
 
-void Element::setFlex(std::optional<bool> const& flex) {
+void element::setFlex(ext::optional<bool> const& flex) {
     _flex = flex;
 }
 
-void Element::setWidth(std::optional<double> const& width) {
+void element::setWidth(ext::optional<double> const& width) {
     _width = width;
 }
 
-void Element::setHeight(std::optional<double> const& height) {
+void element::setHeight(ext::optional<double> const& height) {
     _height = height;
 }
 
-void Element::setLeft(std::optional<double> const& left) {
+void element::setLeft(ext::optional<double> const& left) {
     _left = left;
 }
 
-void Element::setTop(std::optional<double> const& top) {
+void element::setTop(ext::optional<double> const& top) {
     _top = top;
 }
 
-void Element::setRight(std::optional<double> const& right) {
+void element::setRight(ext::optional<double> const& right) {
     _right = right;
 }
 
-void Element::setBottom(std::optional<double> const& bottom) {
+void element::setBottom(ext::optional<double> const& bottom) {
     _bottom = bottom;
 }
 
-void Element::setMaxWidth(std::optional<double> const& maxWidth) {
+void element::setMaxWidth(ext::optional<double> const& maxWidth) {
     _maxWidth = maxWidth;
 }
 
-void Element::setMinWidth(std::optional<double> const& minWidth) {
+void element::setMinWidth(ext::optional<double> const& minWidth) {
     _minWidth = minWidth;
 }
 
-void Element::setMaxHeight(std::optional<double> const& maxHeight) {
+void element::setMaxHeight(ext::optional<double> const& maxHeight) {
     _maxHeight = maxHeight;
 }
 
-void Element::setMinHeight(std::optional<double> const& minHeight) {
+void element::setMinHeight(ext::optional<double> const& minHeight) {
     _minHeight = minHeight;
 }
 
-void Element::setMarginLeft(std::optional<double> const& marginLeft) {
+void element::setMarginLeft(ext::optional<double> const& marginLeft) {
     _marginLeft = marginLeft;
 }
 
-void Element::setMarginTop(std::optional<double> const& marginTop) {
+void element::setMarginTop(ext::optional<double> const& marginTop) {
     _marginTop = marginTop;
 }
 
-void Element::setMarginRight(std::optional<double> const& marginRight) {
+void element::setMarginRight(ext::optional<double> const& marginRight) {
     _marginRight = marginRight;
 }
 
-void Element::setMarginBottom(std::optional<double> const& marginBottom) {
+void element::setMarginBottom(ext::optional<double> const& marginBottom) {
     _marginBottom = marginBottom;
 }
 
-void Element::setPaddingLeft(std::optional<double> const& paddingLeft) {
+void element::setPaddingLeft(ext::optional<double> const& paddingLeft) {
     _paddingLeft = paddingLeft;
 }
 
-void Element::setPaddingTop(std::optional<double> const& paddingTop) {
+void element::setPaddingTop(ext::optional<double> const& paddingTop) {
     _paddingTop = paddingTop;
 }
 
-void Element::setPaddingRight(std::optional<double> const& paddingRight) {
+void element::setPaddingRight(ext::optional<double> const& paddingRight) {
     _paddingRight = paddingRight;
 }
 
-void Element::setPaddingBottom(std::optional<double> const& paddingBottom) {
+void element::setPaddingBottom(ext::optional<double> const& paddingBottom) {
     _paddingBottom = paddingBottom;
 }
 
-void Element::setPosition(std::optional<raz::ElementPosition> const& position) {
+void element::setPosition(ext::optional<ext::dom::ElementPosition> const& position) {
     _position = position;
 }
 
-void Element::setDirection(std::optional<raz::ElementDirection> const& direction) {
+void element::setDirection(ext::optional<ext::dom::ElementDirection> const& direction) {
     _direction = direction;
 }
 
-void Element::setAlignChildren(std::optional<raz::ElementAlignChildren> const& alignChildren) {
+void element::setAlignChildren(ext::optional<ext::dom::ElementAlignChildren> const& alignChildren) {
     _alignChildren = alignChildren;
 }
 
-void Element::setJustifyChildren(std::optional<raz::ElementJustifyChildren> const& justifyChildren) {
+void element::setJustifyChildren(ext::optional<ext::dom::ElementJustifyChildren> const& justifyChildren) {
     _justifyChildren = justifyChildren;
 }
 
-void Element::setBackgroundColor(std::optional<sf::Color> const& backgroundColor) {
+void element::setBackgroundColor(ext::optional<sf::Color> const& backgroundColor) {
     _backgroundColor = backgroundColor;
 }
 
-void Element::setBorderColor(std::optional<sf::Color> const& borderColor) {
+void element::setBorderColor(ext::optional<sf::Color> const& borderColor) {
     _borderColor = borderColor;
 }
 
-void Element::setBorderLeftColor(std::optional<sf::Color> const& borderLeftColor) {
+void element::setBorderLeftColor(ext::optional<sf::Color> const& borderLeftColor) {
     _borderLeftColor = borderLeftColor;
 }
 
-void Element::setBorderTopColor(std::optional<sf::Color> const& borderTopColor) {
+void element::setBorderTopColor(ext::optional<sf::Color> const& borderTopColor) {
     _borderTopColor = borderTopColor;
 }
 
-void Element::setBorderRightColor(std::optional<sf::Color> const& borderRightColor) {
+void element::setBorderRightColor(ext::optional<sf::Color> const& borderRightColor) {
     _borderRightColor = borderRightColor;
 }
 
-void Element::setBorderBottomColor(std::optional<sf::Color> const& borderBottomColor) {
+void element::setBorderBottomColor(ext::optional<sf::Color> const& borderBottomColor) {
     _borderBottomColor = borderBottomColor;
 }
 
-void Element::setBorderWidth(std::optional<double> const& borderWidth) {
+void element::setBorderWidth(ext::optional<double> const& borderWidth) {
     _borderWidth = borderWidth;
 }
 
-void Element::setBorderLeftWidth(std::optional<double> const& borderLeftWidth) {
+void element::setBorderLeftWidth(ext::optional<double> const& borderLeftWidth) {
     _borderLeftWidth = borderLeftWidth;
 }
 
-void Element::setBorderTopWidth(std::optional<double> const& borderTopWidth) {
+void element::setBorderTopWidth(ext::optional<double> const& borderTopWidth) {
     _borderTopWidth = borderTopWidth;
 }
 
-void Element::setBorderRightWidth(std::optional<double> const& borderRightWidth) {
+void element::setBorderRightWidth(ext::optional<double> const& borderRightWidth) {
     _borderRightWidth = borderRightWidth;
 }
 
-void Element::setBorderBottomWidth(std::optional<double> const& borderBottomWidth) {
+void element::setBorderBottomWidth(ext::optional<double> const& borderBottomWidth) {
     _borderBottomWidth = borderBottomWidth;
 }
 
-void Element::setBackgroundImage(std::optional<raz::Image*> const& backgroundImage) {
+void element::setBackgroundImage(ext::optional<ext::dom::Image*> const& backgroundImage) {
     _backgroundImage = backgroundImage;
 }
 
-void Element::setBackgroundPosition(std::optional<raz::ElementBackgroundPosition> const& backgroundPosition) {
+void element::setBackgroundPosition(ext::optional<ext::dom::ElementBackgroundPosition> const& backgroundPosition) {
     _backgroundPosition = backgroundPosition;
 }
 
-void Element::addChild(raz::Element& element) {
+void element::addChild(ext::dom::element& element) {
     if (element.parent() != nullptr) {
         element.parent()->removeChild(element);
     }
@@ -663,7 +660,7 @@ void Element::addChild(raz::Element& element) {
     element._parent = this;
 }
 
-bool Element::removeChild(raz::Element& element) {
+bool element::removeChild(ext::dom::element& element) {
     auto index = help::indexOf(_children, &element);
 
     if (index > -1) {
@@ -675,4 +672,4 @@ bool Element::removeChild(raz::Element& element) {
     }
 }
 
-} /* namespace raz */
+} /* namespace ext::dom */

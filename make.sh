@@ -7,12 +7,14 @@ FLAGS="-std=c++2a -g -O0 -Wall -Wextra -Wno-unused-parameter -Wno-unused-variabl
 [ ! -d $OUT/obj ] 			      && mkdir -p $OUT/obj
 [ ! -d $OUT/obj/core ] 			  && mkdir -p $OUT/obj/core
 [ ! -d $OUT/obj/gfx ] 			  && mkdir -p $OUT/obj/gfx
+[ ! -d $OUT/obj/dom ] 			  && mkdir -p $OUT/obj/dom
 [ ! -d $OUT/obj/ui ] 			  && mkdir -p $OUT/obj/ui
 [ ! -d $OUT/lib ] 			      && mkdir -p $OUT/lib
 [ ! -d $OUT/include ] 		      && mkdir -p $OUT/include
 [ ! -d $OUT/include/libext ]      && mkdir -p $OUT/include/libext
 [ ! -d $OUT/include/libext/core ] && mkdir -p $OUT/include/libext/core
 [ ! -d $OUT/include/libext/gfx ]  && mkdir -p $OUT/include/libext/gfx
+[ ! -d $OUT/include/libext/dom ]  && mkdir -p $OUT/include/libext/dom
 [ ! -d $OUT/include/libext/ui ]   && mkdir -p $OUT/include/libext/ui
 
 make_core() {
@@ -33,7 +35,20 @@ make_core() {
 }
 
 make_gfx() {
-    echo "nothing to compile for gfx yet..."
+    cp $SRC/gfx.hpp $OUT/include/libext/gfx.hpp
+
+    for path in $SRC/gfx/*.hpp; do
+        cp $(realpath $path) $OUT/include/libext/gfx/$(basename $path)
+    done
+
+    # for path in $SRC/gfx/*.cpp; do
+    #     clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/gfx/$(basename $path .cpp).o
+    #     if (( $? != 0 )); then
+    #         exit
+    #     fi
+    # done
+
+    # ar rc $OUT/lib/libext-gfx.a $OUT/obj/gfx/*.o
 }
 
 make_ui() {
@@ -69,6 +84,23 @@ make_ui() {
     ar rc $OUT/lib/libext-ui.a $OUT/obj/ui/*.o
 }
 
+make_dom() {
+    cp $SRC/dom.hpp $OUT/include/libext/dom.hpp
+
+    for path in $SRC/dom/*.hpp; do
+        cp $(realpath $path) $OUT/include/libext/dom/$(basename $path)
+    done
+
+    # for path in $SRC/dom/*.cpp; do
+    #     clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/dom/$(basename $path .cpp).o
+    #     if (( $? != 0 )); then
+    #         exit
+    #     fi
+    # done
+
+    # ar rc $OUT/lib/libext-dom.a $OUT/obj/dom/*.o
+}
+
 install() {
 	cp -r $OUT/include/libext /usr/local/include
 	cp $OUT/lib/libext-core.a /usr/local/lib/libext-core.a
@@ -83,5 +115,6 @@ test_() {
 make_core
 make_gfx
 make_ui
+make_dom
 install
 test_

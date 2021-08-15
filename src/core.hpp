@@ -1,4 +1,5 @@
 #include <libext/core/base.hpp>
+#include <libext/core/optional.hpp>
 #include <libext/core/array.hpp>
 #include <libext/core/map.hpp>
 #include <libext/core/unicode.hpp>
@@ -8,3 +9,4 @@
 #include <libext/core/status.hpp>
 #include <libext/core/value.hpp>
 #include <libext/core/path.hpp>
+#include <libext/core/math.hpp>
