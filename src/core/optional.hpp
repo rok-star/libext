@@ -4,6 +4,12 @@
 
 namespace ext {
 
+struct nullopt_t {
+    int dummy = 0;
+};
+
+inline const ext::nullopt_t nullopt = {0};
+
 template<typename T>
 class optional {
 private:
@@ -12,8 +18,10 @@ public:
     optional();
     optional(T const&);
     optional(T &&);
+    optional(ext::nullopt_t const&);
     optional(ext::optional<T> const&);
     optional(ext::optional<T> &&);
+    ext::optional<T>& operator=(ext::nullopt_t const&);
     ext::optional<T>& operator=(ext::optional<T> const&);
     ext::optional<T>& operator=(ext::optional<T> &&);
     bool has_value() const;
@@ -22,19 +30,23 @@ public:
 };
 
 template<typename T>
-ext::optional<T>::optional()
+inline ext::optional<T>::optional()
     : _data(nullptr) {}
 
 template<typename T>
-ext::optional<T>::optional(T const& value)
+inline ext::optional<T>::optional(T const& value)
     : _data(new T(value)) {}
 
 template<typename T>
-ext::optional<T>::optional(T && value)
+inline ext::optional<T>::optional(T && value)
     : _data(new T(std::move(value))) {}
 
 template<typename T>
-ext::optional<T>::optional(ext::optional<T> const& optional)
+inline ext::optional<T>::optional(ext::nullopt_t const& nullopt)
+    : _data(nullptr) {}
+
+template<typename T>
+inline ext::optional<T>::optional(ext::optional<T> const& optional)
     : _data(nullptr) {
     if (optional._data != nullptr) {
         _data = new T(*optional._data);
@@ -42,13 +54,22 @@ ext::optional<T>::optional(ext::optional<T> const& optional)
 }
 
 template<typename T>
-ext::optional<T>::optional(ext::optional<T> && optional)
+inline ext::optional<T>::optional(ext::optional<T> && optional)
     : _data(optional._data) {
     optional._data = nullptr;
 }
 
 template<typename T>
-ext::optional<T>& ext::optional<T>::operator=(ext::optional<T> const& optional) {
+inline ext::optional<T>& ext::optional<T>::operator=(ext::nullopt_t const& nullopt) {
+    if (_data != nullptr) {
+        delete _data;
+        _data = nullptr;
+    }
+    return *this;
+}
+
+template<typename T>
+inline ext::optional<T>& ext::optional<T>::operator=(ext::optional<T> const& optional) {
     if (_data != nullptr) {
         delete _data;
         _data = nullptr;
@@ -60,7 +81,7 @@ ext::optional<T>& ext::optional<T>::operator=(ext::optional<T> const& optional) 
 }
 
 template<typename T>
-ext::optional<T>& ext::optional<T>::operator=(ext::optional<T> && optional) {
+inline ext::optional<T>& ext::optional<T>::operator=(ext::optional<T> && optional) {
     if (_data != nullptr) {
         delete _data;
         _data = nullptr;
@@ -73,19 +94,19 @@ ext::optional<T>& ext::optional<T>::operator=(ext::optional<T> && optional) {
 }
 
 template<typename T>
-bool ext::optional<T>::has_value() const {
+inline bool ext::optional<T>::has_value() const {
     return (_data != nullptr);
 }
 
 template<typename T>
-T const& ext::optional<T>::value() const {
+inline T const& ext::optional<T>::value() const {
     assert(_data != nullptr);
     return *_data;
 }
 
 template<typename T>
-T const& ext::optional<T>::value_or(T const& value) const {
-    return (_data != nullptr) ? *_data : value;
+inline T const& ext::optional<T>::value_or(T const& value) const {
+    return ((_data != nullptr) ? *_data : value);
 }
 
 } /* namespace ext */

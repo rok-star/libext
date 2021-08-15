@@ -14,7 +14,7 @@ public:
     ext::dom::document& operator=(ext::dom::document const&) = delete;
     ext::dom::document& operator=(ext::dom::document &&) = delete;
     document();
-    void post_event(ext::gfx::context const&, ext::ui::event const&);
+    void event(ext::gfx::context const&, ext::ui::event const&);
     void update(ext::gfx::context const&);
     void render(ext::gfx::context&);
 };

@@ -5,10 +5,12 @@
 namespace ext::gfx {
 
 struct color {
-    uint8_t red;
-    uint8_t green;
-    uint8_t blue;
-    uint8_t alpha;
+    std::uint8_t red;
+    std::uint8_t green;
+    std::uint8_t blue;
+    std::uint8_t alpha;
+    bool opaque() const;
+    bool transparent() const;
     static ext::gfx::color aliceblue_color();
     static ext::gfx::color lightsalmon_color();
     static ext::gfx::color antiquewhite_color();

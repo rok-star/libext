@@ -2,6 +2,14 @@
 
 namespace ext::gfx {
 
+bool color::opaque() const {
+    return (alpha == 255);
+}
+
+bool color::transparent() const {
+    return (alpha == 0);
+}
+
 ext::gfx::color color::aliceblue_color() { return { 240, 248, 255, 255 }; };
 ext::gfx::color color::lightsalmon_color() { return { 255, 160, 122, 255 }; };
 ext::gfx::color color::antiquewhite_color() { return { 250, 235, 215, 255 }; };

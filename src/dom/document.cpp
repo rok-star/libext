@@ -2,54 +2,55 @@
 #include <iostream>
 #include <libext/dom/document.hpp>
 
-namespace raz {
+namespace ext::dom {
 
-Document::Document()
-    : _keepUpdate(false) {
+document::document()
+    : _keep_update(false) {
     _label = "document";
 }
 
-void Document::postEvent(sf::RenderWindow const& window, sf::Event const& event) {
+void document::event(ext::gfx::context const& context, ext::ui::event const& event) {
 
 }
 
-void Document::update(sf::RenderWindow const& window) {
-    auto const sizeU = window.getSize();
-
-    _position = raz::ElementPosition::Absolute;
-    _maxWidth = std::nullopt;
-    _maxHeight = std::nullopt;
-    _minWidth = std::nullopt;
-    _minHeight = std::nullopt;
-    _marginLeft = std::nullopt;
-    _marginTop = std::nullopt;
-    _marginRight = std::nullopt;
-    _marginBottom = std::nullopt;
-    _bottom = std::nullopt;
-    _right = std::nullopt;
-    _left = std::nullopt;
-    _top = std::nullopt;
-    _width = static_cast<double>(sizeU.x);
-    _height = static_cast<double>(sizeU.y);
+void document::update(ext::gfx::context const& context) {
+    _position = ext::dom::element_position::absolute;
+    _max_width = ext::nullopt;
+    _max_height = ext::nullopt;
+    _min_width = ext::nullopt;
+    _min_height = ext::nullopt;
+    _margin_left = ext::nullopt;
+    _margin_top = ext::nullopt;
+    _margin_right = ext::nullopt;
+    _margin_bottom = ext::nullopt;
+    _bottom = ext::nullopt;
+    _right = ext::nullopt;
+    _left = ext::nullopt;
+    _top = ext::nullopt;
+    _width = context.size().width;
+    _height = context.size().height;
 
     _update(
-        window,
+        context,
         *this,
-        static_cast<double>(sizeU.x),
-        static_cast<double>(sizeU.y)
+        context.size().width,
+        context.size().height
     );
 
     _adjust(
-        window,
+        context,
         *this,
         { 0.0, 0.0 }
     );
 }
 
-void Document::render(sf::RenderWindow& window) {
-    window.clear();
+void document::render(ext::gfx::context& context) {
+    context.fill_rect(
+        { 0.0, 0.0, context.size() },
+        ext::gfx::color::white_color()
+    );
 
-    _render(window, *this, { 0, 0 });
+    _render(context, *this, { 0, 0 });
 }
 
-} /* namespace raz */
+} /* namespace ext::dom */
