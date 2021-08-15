@@ -15,6 +15,7 @@ class optional {
 private:
     T* _data;
 public:
+    ~optional();
     optional();
     optional(T const&);
     optional(T &&);
@@ -28,6 +29,14 @@ public:
     T const& value() const;
     T const& value_or(T const&) const;
 };
+
+template<typename T>
+inline optional<T>::~optional() {
+    if (_data != nullptr) {
+        delete _data;
+        _data = nullptr;
+    }
+}
 
 template<typename T>
 inline optional<T>::optional()
