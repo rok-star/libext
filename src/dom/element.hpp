@@ -5,7 +5,7 @@
 #include <libext/core/string.hpp>
 #include <libext/core/optional.hpp>
 #include <libext/gfx/context.hpp>
-#include <libext/gfx/image.hpp>
+#include <libext/gfx/texture.hpp>
 #include <libext/gfx/color.hpp>
 
 namespace ext::dom {
@@ -88,7 +88,7 @@ private:
     ext::optional<double> _border_top_width;
     ext::optional<double> _border_right_width;
     ext::optional<double> _border_bottom_width;
-    ext::optional<ext::gfx::image*> _background_image;
+    ext::optional<ext::gfx::texture*> _background_image;
     ext::optional<ext::dom::element_background_position> _background_position;
     void _update(
         ext::gfx::context const& context,
@@ -154,7 +154,7 @@ public:
     ext::optional<double> const& border_top_width() const;
     ext::optional<double> const& border_right_width() const;
     ext::optional<double> const& border_bottom_width() const;
-    ext::optional<ext::gfx::image*> const& background_image() const;
+    ext::optional<ext::gfx::texture*> const& background_image() const;
     ext::optional<ext::dom::element_background_position> const& background_position() const;
     void set_label(ext::string const& label);
     void set_flex(ext::optional<bool> const& flex);
@@ -191,7 +191,7 @@ public:
     void set_border_top_width(ext::optional<double> const& border_top_width);
     void set_border_right_width(ext::optional<double> const& border_right_width);
     void set_border_bottom_width(ext::optional<double> const& border_bottom_width);
-    void set_background_image(ext::optional<ext::gfx::image*> const& background_image);
+    void set_background_image(ext::optional<ext::gfx::texture*> const& background_image);
     void set_background_position(ext::optional<ext::dom::element_background_position> const& background_position);
     void add_child(ext::dom::element& element);
     bool remove_child(ext::dom::element& element);
