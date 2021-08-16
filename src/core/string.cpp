@@ -214,12 +214,12 @@ ext::string string::slice(int64_t start, int64_t end) const {
 }
 
 ext::string string::first() const {
-    ASSERT(size() > 0);
+    assert(size() > 0);
     return substr(0, 1);
 }
 
 ext::string string::last() const {
-    ASSERT(size() > 0);
+    assert(size() > 0);
     return substr(size() - 1, 1);
 }
 

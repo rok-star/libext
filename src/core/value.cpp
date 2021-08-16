@@ -102,22 +102,22 @@ ext::value& value::operator=(ext::value && value) {
 }
 
 ext::value const& value::operator[](key_type const& key) const {
-    ASSERT(_type == ext::value_type::object);
+    assert(_type == ext::value_type::object);
     return object_value()[key];
 }
 
 ext::value const& value::operator[](index_type const& index) const {
-    ASSERT(_type == ext::value_type::array);
+    assert(_type == ext::value_type::array);
     return array_value()[index];
 }
 
 ext::value& value::operator[](key_type const& key) {
-    ASSERT(_type == ext::value_type::object);
+    assert(_type == ext::value_type::object);
     return object_value()[key];
 }
 
 ext::value& value::operator[](index_type const& index) {
-    ASSERT(_type == ext::value_type::array);
+    assert(_type == ext::value_type::array);
     return array_value()[index];
 }
 
@@ -154,67 +154,67 @@ ext::value_type const& value::type() const {
 }
 
 value::boolean_type const& value::boolean_value() const {
-    ASSERT(_type == ext::value_type::boolean);
+    assert(_type == ext::value_type::boolean);
     return *(static_cast<value::boolean_type*>(_data));
 }
 
 value::number_type const& value::number_value() const {
-    ASSERT(_type == ext::value_type::number);
+    assert(_type == ext::value_type::number);
     return *(static_cast<value::number_type*>(_data));
 }
 
 value::string_type const& value::string_value() const {
-    ASSERT(_type == ext::value_type::string);
+    assert(_type == ext::value_type::string);
     return *(static_cast<value::string_type*>(_data));
 }
 
 value::object_type const& value::object_value() const {
-    ASSERT(_type == ext::value_type::object);
+    assert(_type == ext::value_type::object);
     return *(static_cast<value::object_type*>(_data));
 }
 
 value::array_type const& value::array_value() const {
-    ASSERT(_type == ext::value_type::array);
+    assert(_type == ext::value_type::array);
     return *(static_cast<value::array_type*>(_data));
 }
 
 value::datetime_type const& value::datetime_value() const {
-    ASSERT(_type == ext::value_type::datetime);
+    assert(_type == ext::value_type::datetime);
     return *(static_cast<value::datetime_type*>(_data));
 }
 
 value::number_type& value::number_value() {
-    ASSERT(_type == ext::value_type::number);
+    assert(_type == ext::value_type::number);
     return *(static_cast<value::number_type*>(_data));
 }
 
 value::string_type& value::string_value() {
-    ASSERT(_type == ext::value_type::string);
+    assert(_type == ext::value_type::string);
     return *(static_cast<value::string_type*>(_data));
 }
 
 value::object_type& value::object_value() {
-    ASSERT(_type == ext::value_type::object);
+    assert(_type == ext::value_type::object);
     return *(static_cast<value::object_type*>(_data));
 }
 
 value::array_type& value::array_value() {
-    ASSERT(_type == ext::value_type::array);
+    assert(_type == ext::value_type::array);
     return *(static_cast<value::array_type*>(_data));
 }
 
 value::datetime_type& value::datetime_value() {
-    ASSERT(_type == ext::value_type::datetime);
+    assert(_type == ext::value_type::datetime);
     return *(static_cast<value::datetime_type*>(_data));
 }
 
 bool value::has(char const* key) const {
-    ASSERT(_type == ext::value_type::object);
+    assert(_type == ext::value_type::object);
     return object_value().has(key);
 }
 
 bool value::has(key_type const& key) const {
-    ASSERT(_type == ext::value_type::object);
+    assert(_type == ext::value_type::object);
     return object_value().has(key);
 }
 
@@ -292,22 +292,22 @@ void value::set_datetime(datetime_type const& datetime) {
 }
 
 int64_t value::int64_value() const {
-    ASSERT(_type == ext::value_type::number);
+    assert(_type == ext::value_type::number);
     return number_value();
 }
 
 int32_t value::int32_value() const {
-    ASSERT(_type == ext::value_type::number);
+    assert(_type == ext::value_type::number);
     return number_value();
 }
 
 int16_t value::int16_value() const {
-    ASSERT(_type == ext::value_type::number);
+    assert(_type == ext::value_type::number);
     return number_value();
 }
 
 int8_t value::int8_value() const {
-    ASSERT(_type == ext::value_type::number);
+    assert(_type == ext::value_type::number);
     return number_value();
 }
 

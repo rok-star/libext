@@ -218,14 +218,14 @@ inline bool map<K, V>::has(K const& key) const {
 template<typename K, typename V>
 inline V const& map<K, V>::get(K const& key) const {
     int64_t index = _find_index(key);
-    ASSERT(index > -1);
+    assert(index > -1);
     return _data[index].value();
 }
 
 template<typename K, typename V>
 inline V& map<K, V>::get(K const& key) {
     int64_t index = _find_index(key);
-    ASSERT(index > -1);
+    assert(index > -1);
     return _data[index].value();
 }
 

@@ -82,8 +82,8 @@ __parse_result __parse(ext::string const& string, __parse_options const& options
         }
     }
 
-    ASSERT(res.integer_read <= 19);
-    ASSERT(res.fraction_read <= 19);
+    assert(res.integer_read <= 19);
+    assert(res.fraction_read <= 19);
 
     if (res.fraction_read > 0) {
         res.value = (static_cast<double>(res.integer)

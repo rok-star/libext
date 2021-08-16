@@ -50,19 +50,19 @@ template<typename T>
 void unicode_test_reader(T const* string, int enc) {
     auto const data = ext::array<T>(string, len<T>(string));
     auto reader = ext::unicode::reader<T>(data);
-    ASSERT(reader.codepoint() == 0);
-    ASSERT(reader.position() == -1);
-    ASSERT(reader.index() == -1);
-    ASSERT(reader.size() == 0);
+    assert(reader.codepoint() == 0);
+    assert(reader.position() == -1);
+    assert(reader.index() == -1);
+    assert(reader.size() == 0);
     for (int64_t i = 0; i < STRING_LEN; i++) {
-        ASSERT(reader.next() == true);
-        ASSERT(reader.index() == i);
-        ASSERT(reader.codepoint() == STRING_EXPECTED[i].codepoint);
-        ASSERT(reader.position() == STRING_EXPECTED[i].encoding[enc].position);
-        ASSERT(reader.size() == STRING_EXPECTED[i].encoding[enc].size);
+        assert(reader.next() == true);
+        assert(reader.index() == i);
+        assert(reader.codepoint() == STRING_EXPECTED[i].codepoint);
+        assert(reader.position() == STRING_EXPECTED[i].encoding[enc].position);
+        assert(reader.size() == STRING_EXPECTED[i].encoding[enc].size);
     }
-    ASSERT(reader.next() == false);
-    ASSERT(reader.next() == false);
+    assert(reader.next() == false);
+    assert(reader.next() == false);
 }
 
 template<typename T>
@@ -75,24 +75,24 @@ void unicode_test_writer(T const* string, int enc) {
     auto data = ext::array<T>::with_capacity(codepoints.size() * 4);
     auto writer = ext::unicode::writer<T>(codepoints);
     for (int64_t i = 0; i < STRING_LEN; i++) {
-        ASSERT(writer.next() == true);
-        ASSERT(writer.index() == i);
-        ASSERT(writer.codepoint() == STRING_EXPECTED[i].codepoint);
+        assert(writer.next() == true);
+        assert(writer.index() == i);
+        assert(writer.codepoint() == STRING_EXPECTED[i].codepoint);
         data.push(writer.data());
     }
 
-    ASSERT(writer.next() == false);
-    ASSERT(writer.next() == false);
-    ASSERT(data.size() == len<T>(string));
-    ASSERT(data == ext::array<T>(string, len<T>(string)));
+    assert(writer.next() == false);
+    assert(writer.next() == false);
+    assert(data.size() == len<T>(string));
+    assert(data == ext::array<T>(string, len<T>(string)));
 }
 
 void unicode_test_codepoints() {
     for (int64_t i = 0; i < STRING_LEN; i++) {
-        ASSERT(ext::unicode::upper(STRING_EXPECTED[i].codepoint) == STRING_EXPECTED[i].upper);
-        ASSERT(ext::unicode::lower(STRING_EXPECTED[i].codepoint) == STRING_EXPECTED[i].lower);
-        ASSERT(ext::unicode::whitespace(STRING_EXPECTED[i].codepoint) == STRING_EXPECTED[i].whitespace);
-        ASSERT(ext::unicode::digital(STRING_EXPECTED[i].codepoint) == STRING_EXPECTED[i].digital);
+        assert(ext::unicode::upper(STRING_EXPECTED[i].codepoint) == STRING_EXPECTED[i].upper);
+        assert(ext::unicode::lower(STRING_EXPECTED[i].codepoint) == STRING_EXPECTED[i].lower);
+        assert(ext::unicode::whitespace(STRING_EXPECTED[i].codepoint) == STRING_EXPECTED[i].whitespace);
+        assert(ext::unicode::digital(STRING_EXPECTED[i].codepoint) == STRING_EXPECTED[i].digital);
     }
 }
 

@@ -5,20 +5,6 @@
 #include <string.h>
 #include <initializer_list>
 
-#ifdef NDEBUG
-    #define ASSERT(expr)
-    #define ASSERT_M(expr, message)
-#else
-    #define ASSERT(expr) { \
-        if (!(expr)) \
-            ext::abort("Assertion failed: (%s) in file \"%s\" at line %d\n", #expr, __FILE__, __LINE__); \
-    }
-    #define ASSERT_M(expr, message) { \
-        if (!(expr)) \
-            ext::abort("Assertion failed: %s, (%s) in file \"%s\" at line %d\n", #message, #expr, __FILE__, __LINE__); \
-    }
-#endif
-
 #define SAFE_FREE(obj) { \
     if (obj != nullptr) { \
         ::free(obj); \

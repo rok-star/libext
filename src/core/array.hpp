@@ -126,7 +126,7 @@ inline array<T>::array(T const* data, int64_t size)
     : _capacity(size)
     , _size(size)
     , _data(ext::alloc<T>(size)) {
-    ASSERT(data != nullptr);
+    assert(data != nullptr);
     for (int64_t i = 0; i < size; i++)
         new (_data + i) T(data[i]);
 }
@@ -206,13 +206,13 @@ inline bool array<T>::operator!=(ext::array<T> const& array) const {
 
 template<typename T>
 inline T const& array<T>::operator[](int64_t index) const {
-    ASSERT((index >= 0) && (index < _size));
+    assert((index >= 0) && (index < _size));
     return _data[index];
 }
 
 template<typename T>
 inline T& array<T>::operator[](int64_t index) {
-    ASSERT((index >= 0) && (index < _size));
+    assert((index >= 0) && (index < _size));
     return _data[index];
 }
 
@@ -258,25 +258,25 @@ inline T* array<T>::data() {
 
 template<typename T>
 inline T const& array<T>::first() const {
-    ASSERT(_size > 0);
+    assert(_size > 0);
     return _data[0];
 }
 
 template<typename T>
 inline T& array<T>::first() {
-    ASSERT(_size > 0);
+    assert(_size > 0);
     return _data[0];
 }
 
 template<typename T>
 inline T const& array<T>::last() const {
-    ASSERT(_size > 0);
+    assert(_size > 0);
     return _data[_size - 1];
 }
 
 template<typename T>
 inline T& array<T>::last() {
-    ASSERT(_size > 0);
+    assert(_size > 0);
     return _data[_size - 1];
 }
 
@@ -445,7 +445,7 @@ inline ext::array<T>& array<T>::unshift(ext::array<T> const& array) {
 
 template<typename T>
 inline T array<T>::pop() {
-    ASSERT(_size > 0);
+    assert(_size > 0);
     T ret(std::move(_data[_size - 1]));
     _data[_size - 1].~T();
     _size -= 1;
@@ -454,7 +454,7 @@ inline T array<T>::pop() {
 
 template<typename T>
 inline T array<T>::shift() {
-    ASSERT(_size > 0);
+    assert(_size > 0);
     T ret(std::move(_data[0]));
     _data[0].~T();
     _size -= 1;
