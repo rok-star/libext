@@ -12,24 +12,24 @@ namespace ext::dom {
 
 class document;
 
-enum class element_position {
+enum class position {
     relative,
     absolute
 };
 
-enum class element_direction {
+enum class direction {
     column,
     row
 };
 
-enum class element_align_children {
+enum class align_children {
     start,
     center,
     end,
     stretch
 };
 
-enum class element_justify_children {
+enum class justify_children {
     start,
     center,
     end,
@@ -38,7 +38,7 @@ enum class element_justify_children {
     space_evenly
 };
 
-enum class element_background_position {
+enum class background_position {
     default_,
     stretch,
     cover,
@@ -73,10 +73,10 @@ private:
     ext::optional<double> _padding_top;
     ext::optional<double> _padding_right;
     ext::optional<double> _padding_bottom;
-    ext::optional<ext::dom::element_position> _position;
-    ext::optional<ext::dom::element_direction> _direction;
-    ext::optional<ext::dom::element_align_children> _align_children;
-    ext::optional<ext::dom::element_justify_children> _justify_children;
+    ext::optional<ext::dom::position> _position;
+    ext::optional<ext::dom::direction> _direction;
+    ext::optional<ext::dom::align_children> _align_children;
+    ext::optional<ext::dom::justify_children> _justify_children;
     ext::optional<ext::gfx::color> _background_color;
     ext::optional<ext::gfx::color> _border_color;
     ext::optional<ext::gfx::color> _border_left_color;
@@ -89,7 +89,7 @@ private:
     ext::optional<double> _border_right_width;
     ext::optional<double> _border_bottom_width;
     ext::optional<ext::gfx::texture*> _background_image;
-    ext::optional<ext::dom::element_background_position> _background_position;
+    ext::optional<ext::dom::background_position> _background_position;
     void _update(
         ext::gfx::context const& context,
         ext::dom::document const& document,
@@ -139,10 +139,10 @@ public:
     ext::optional<double> const& padding_top() const;
     ext::optional<double> const& padding_right() const;
     ext::optional<double> const& padding_bottom() const;
-    ext::optional<ext::dom::element_position> const& position() const;
-    ext::optional<ext::dom::element_direction> const& direction() const;
-    ext::optional<ext::dom::element_align_children> const& align_children() const;
-    ext::optional<ext::dom::element_justify_children> const& justify_children() const;
+    ext::optional<ext::dom::position> const& position() const;
+    ext::optional<ext::dom::direction> const& direction() const;
+    ext::optional<ext::dom::align_children> const& align_children() const;
+    ext::optional<ext::dom::justify_children> const& justify_children() const;
     ext::optional<ext::gfx::color> const& background_color() const;
     ext::optional<ext::gfx::color> const& border_color() const;
     ext::optional<ext::gfx::color> const& border_left_color() const;
@@ -155,7 +155,7 @@ public:
     ext::optional<double> const& border_right_width() const;
     ext::optional<double> const& border_bottom_width() const;
     ext::optional<ext::gfx::texture*> const& background_image() const;
-    ext::optional<ext::dom::element_background_position> const& background_position() const;
+    ext::optional<ext::dom::background_position> const& background_position() const;
     void set_label(ext::string const& label);
     void set_flex(ext::optional<bool> const& flex);
     void set_width(ext::optional<double> const& width);
@@ -176,10 +176,10 @@ public:
     void set_padding_top(ext::optional<double> const& padding_top);
     void set_padding_right(ext::optional<double> const& padding_right);
     void set_padding_bottom(ext::optional<double> const& padding_bottom);
-    void set_position(ext::optional<ext::dom::element_position> const& position);
-    void set_direction(ext::optional<ext::dom::element_direction> const& direction);
-    void set_align_children(ext::optional<ext::dom::element_align_children> const& align_children);
-    void set_justify_children(ext::optional<ext::dom::element_justify_children> const& justify_children);
+    void set_position(ext::optional<ext::dom::position> const& position);
+    void set_direction(ext::optional<ext::dom::direction> const& direction);
+    void set_align_children(ext::optional<ext::dom::align_children> const& align_children);
+    void set_justify_children(ext::optional<ext::dom::justify_children> const& justify_children);
     void set_background_color(ext::optional<ext::gfx::color> const& background_color);
     void set_border_color(ext::optional<ext::gfx::color> const& border_color);
     void set_border_left_color(ext::optional<ext::gfx::color> const& border_left_color);
@@ -192,7 +192,7 @@ public:
     void set_border_right_width(ext::optional<double> const& border_right_width);
     void set_border_bottom_width(ext::optional<double> const& border_bottom_width);
     void set_background_image(ext::optional<ext::gfx::texture*> const& background_image);
-    void set_background_position(ext::optional<ext::dom::element_background_position> const& background_position);
+    void set_background_position(ext::optional<ext::dom::background_position> const& background_position);
     void add_child(ext::dom::element& element);
     bool remove_child(ext::dom::element& element);
 };
