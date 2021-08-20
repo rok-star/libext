@@ -3,7 +3,7 @@
 namespace ext::ui {
 
 event::event()
-    : _type(ext::ui::event_type::unknown) {}
+    : _type(ext::ui::event_type::exit) {}
 
 ext::ui::event_type const& event::type() const {
     return _type;

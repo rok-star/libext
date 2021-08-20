@@ -10,3 +10,4 @@
 #include <libext/core/value.hpp>
 #include <libext/core/path.hpp>
 #include <libext/core/math.hpp>
+#include <libext/core/signal.hpp>

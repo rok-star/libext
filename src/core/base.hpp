@@ -3,7 +3,6 @@
 #include <memory>
 #include <stdint.h>
 #include <string.h>
-#include <initializer_list>
 
 #define SAFE_FREE(obj) { \
     if (obj != nullptr) { \

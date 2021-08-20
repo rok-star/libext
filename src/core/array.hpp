@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <libext/core/base.hpp>
 
 namespace ext {

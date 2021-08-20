@@ -3,7 +3,6 @@
 namespace ext::ui {
 
 enum class event_type {
-    unknown,
     exit
 };
 

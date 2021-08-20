@@ -31,6 +31,15 @@ make_core() {
         fi
     done
 
+    if [[ "$OSTYPE" == "linux-gnu"* ]] || [[ "$OSTYPE" == "darwin"* ]]; then
+        for path in $SRC/core/POSIX/*.cpp; do
+            clang++ -c $FLAGS $(realpath $path) -o $OUT/obj/core/POSIX_$(basename $path .cpp).o
+            if (( $? != 0 )); then
+                exit
+            fi
+        done
+    fi
+
     ar rc $OUT/lib/libext-core.a $OUT/obj/core/*.o
 }
 
