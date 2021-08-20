@@ -44,7 +44,7 @@ ext::array<ext::ui::event> const& app::poll(ext::ui::app_poll_options const& opt
     tv.tv_usec = 0;
     tv.tv_sec = 1;
 
-    auto num = select(__x11_fd + 1, &fds, NULL, NULL, &tv);
+    auto num = select((__x11_fd + 1), &fds, NULL, NULL, &tv);
     if (num > 0) {
         for (;;) {
             if (XPending(__x11_display)) {
@@ -55,9 +55,6 @@ ext::array<ext::ui::event> const& app::poll(ext::ui::app_poll_options const& opt
             }
         }
     }
-    // else if (num < 0) {
-    //     ext::abort("%s\n", "select() failed");
-    // }
 
     return _events;
 }
