@@ -21,7 +21,6 @@ int main() {
         }
 
         for (auto const& event : app.poll({ .timeout = 1000 })) {
-            ext::output("%s\n", "event");
             if (event.type() == ext::ui::event_type::exit) {
                 ext::output("%s\n", "exiting by app\'s event...");
                 exit_ = true;
