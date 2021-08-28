@@ -66,26 +66,15 @@ app::app(ext::ui::app_options const& options)
     [NSApp finishLaunching];
 }
 
-ext::array<ext::ui::event> const& app::poll(ext::ui::app_poll_options const& options) {
-    _events.clear();
-
-    auto timeout = options.timeout;
-
-    for (;;) {
-        NSEvent* event = [NSApp nextEventMatchingMask: NSEventMaskAny
-                                            untilDate: [NSDate dateWithTimeIntervalSinceNow: timeout]
-                                               inMode: NSDefaultRunLoopMode
-                                              dequeue: YES];
-        if (event == nil)
-            break;
-
+void app::process(ext::ui::app_process_options const& options) {
+    NSEvent* event = [NSApp nextEventMatchingMask: NSEventMaskAny
+                                        untilDate: [NSDate dateWithTimeIntervalSinceNow: options.timeout]
+                                            inMode: NSDefaultRunLoopMode
+                                            dequeue: YES];
+    if (event != nil) {
         [NSApp sendEvent: event];
         [NSApp updateWindows];
-
-        timeout = 0;
     }
-
-    return _events;
 }
 
 } /* namespace ext::ui */

@@ -14,9 +14,11 @@ struct app_poll_options {
     double timeout = 0;
 };
 
+struct app_process_options {
+    double timeout = 0;
+};
+
 class app {
-private:
-    ext::array<ext::ui::event> _events;
 public:
     app(ext::ui::app const&) = delete;
     app(ext::ui::app &&) = delete;
@@ -24,7 +26,7 @@ public:
     ext::ui::app& operator=(ext::ui::app &&) = delete;
     ~app();
     app(ext::ui::app_options const&);
-    ext::array<ext::ui::event> const& poll(ext::ui::app_poll_options const&);
+    void process(ext::ui::app_process_options const&);
 };
 
 } /* namespace ext::ui */
