@@ -14,16 +14,16 @@ public:
     using key_type = K;
     using value_type = V;
     pair();
-    pair(K const& key, V const& value);
-    pair(K const& key, V && value);
-    pair(K && key, V const& value);
-    pair(K && key, V && value);
-    pair(ext::pair<K, V> const& pair);
-    pair(ext::pair<K, V> && pair);
-    ext::pair<K, V>& operator=(ext::pair<K, V> const& pair);
-    ext::pair<K, V>& operator=(ext::pair<K, V> && pair);
-    bool operator==(ext::pair<K, V> const& pair) const;
-    bool operator!=(ext::pair<K, V> const& pair) const;
+    pair(K const&, V const&);
+    pair(K const&y, V &&);
+    pair(K &&, V const&);
+    pair(K &&, V &&);
+    pair(ext::pair<K, V> const&);
+    pair(ext::pair<K, V> &&);
+    ext::pair<K, V>& operator=(ext::pair<K, V> const&);
+    ext::pair<K, V>& operator=(ext::pair<K, V> &&);
+    bool operator==(ext::pair<K, V> const&) const;
+    bool operator!=(ext::pair<K, V> const&) const;
     K const& key() const;
     V const& value() const;
     K& key();
@@ -34,27 +34,28 @@ template<typename K, typename V>
 class map {
 private:
     ext::array<ext::pair<K, V>> _data;
-    int64_t _find_index(K const& key) const;
+    int64_t _find_index(K const&) const;
 public:
     using key_type = K;
     using value_type = V;
     map();
-    map(ext::map<K, V> const& map);
-    map(ext::map<K, V> && map);
-    map(std::initializer_list<ext::pair<K, V>> const& pairs);
-    ext::map<K, V>& operator=(ext::map<K, V> const& map);
-    ext::map<K, V>& operator=(ext::map<K, V> && map);
-    V const& operator[](K const& key) const;
-    V& operator[](K const& key);
-    bool operator==(ext::map<K, V> const& map) const;
-    bool operator!=(ext::map<K, V> const& map) const;
+    map(ext::map<K, V> const&);
+    map(ext::map<K, V> &&);
+    map(std::initializer_list<ext::pair<K, V>> const&);
+    ext::map<K, V>& operator=(ext::map<K, V> const&);
+    ext::map<K, V>& operator=(ext::map<K, V> &&);
+    V const& operator[](K const&) const;
+    V& operator[](K const&);
+    bool operator==(ext::map<K, V> const&) const;
+    bool operator!=(ext::map<K, V> const&) const;
     ext::array<ext::pair<K, V>> const& data() const;
     ext::array<ext::pair<K, V>>& data();
-    bool has(K const& key) const;
-    V const& get(K const& key) const;
-    V& get(K const& key);
-    ext::map<K, V>& set(K const& key, V const& value);
-    ext::map<K, V>& set(K const& key, V && value);
+    bool has(K const&) const;
+    V const& get(K const&) const;
+    V& get(K const&);
+    ext::map<K, V>& set(K const&, V const&);
+    ext::map<K, V>& set(K const&, V &&);
+    bool remove(K const&);
 };
 
 template<typename K, typename V>
@@ -247,6 +248,18 @@ inline ext::map<K, V>& map<K, V>::set(K const& key, V && value) {
         _data[index].value() = std::move(value);
     } else {
         _data.push({ key, std::move(value) });
+    }
+    return *this;
+}
+
+template<typename K, typename V>
+inline bool map<K, V>::remove(K const& key) {
+    int64_t index = _find_index(key);
+    if (index > -1) {
+        _data.remove(index);
+        return true;
+    } else {
+        return false;
     }
     return *this;
 }

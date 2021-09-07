@@ -22,10 +22,7 @@ template<typename T>
 struct rect {
     ext::point<T> origin;
     ext::size<T> size;
-    ext::point<T> top_left() const;
-    ext::point<T> top_right() const;
-    ext::point<T> bottom_left() const;
-    ext::point<T> bottom_right() const;
+    ext::point<T> corner(int) const;
 };
 
 template<typename T>
@@ -53,23 +50,15 @@ inline ext::size<T>& size<T>::operator+=(ext::size<T> const& size) const {
 }
 
 template<typename T>
-inline ext::point<T> rect<T>::top_left() const {
-    return origin;
-}
-
-template<typename T>
-inline ext::point<T> rect<T>::top_right() const {
-    return origin + ext::point<T>({ size.width, 0 });
-}
-
-template<typename T>
-inline ext::point<T> rect<T>::bottom_left() const {
-    return origin + ext::point<T>({ 0, size.height });
-}
-
-template<typename T>
-inline ext::point<T> rect<T>::bottom_right() const {
-    return origin + ext::point<T>({ size.width, size.height });
+inline ext::point<T> rect<T>::corner(int index) const {
+    auto const norm = (index % 4);
+    assert(norm >= 0);
+    assert(norm <= 3);
+    if (norm == 0) return origin;
+    else if (norm == 1) return { origin.x + size.width, origin.y };
+    else if (norm == 2) return { origin.x + size.width, origin.y + origin.height };
+    else if (norm == 3) return { origin.x, origin.y + origin.height };
+    else return { 0, 0 };
 }
 
 } /* namespace ext */

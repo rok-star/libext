@@ -8,6 +8,7 @@
 #include "map.test.cpp"
 #include "value.test.cpp"
 #include "path.test.cpp"
+#include "callback.test.cpp"
 
 #include "../src/core/status.cpp"
 #include "../src/core/unicode.cpp"
@@ -28,6 +29,7 @@ int main(int argc, char const *argv[]) {
 	number_test();
 	status_test();
 	path_test();
+	callback_test();
 
 	ext::output("%s\n", "Nothing failed!");
 

@@ -123,7 +123,7 @@ test_() {
 
 make_core
 make_gfx
-make_ui
+# make_ui
 make_dom
 install
 test_
