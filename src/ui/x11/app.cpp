@@ -18,7 +18,7 @@ app::~app() {
 }
 
 app::app(ext::ui::app_options const& options)
-    : _events() {
+    : on_exit() {
 
     assert(__x11_current == nullptr);
 
@@ -33,9 +33,7 @@ app::app(ext::ui::app_options const& options)
     __x11_current = this;
 }
 
-ext::array<ext::ui::event> const& app::poll(ext::ui::app_poll_options const& options) {
-    _events.clear();
-
+ext::optional<ext::ui::event> app::poll_event(ext::ui::app_poll_options const& options) {
     auto tv = (struct timeval){};
     auto fds = fd_set{};
 
@@ -45,18 +43,13 @@ ext::array<ext::ui::event> const& app::poll(ext::ui::app_poll_options const& opt
     tv.tv_sec = 1;
 
     auto num = select((__x11_fd + 1), &fds, NULL, NULL, &tv);
-    if (num > 0) {
-        for (;;) {
-            if (XPending(__x11_display)) {
-                XNextEvent(__x11_display, &__x11_event);
-                _events.push_new();
-            } else {
-                break;
-            }
-        }
+    if ((num > 0)
+    && XPending(__x11_display)) {
+        XNextEvent(__x11_display, &__x11_event);
+        return ext::ui::event::basic_event(ext::ui::event_type::exit);
     }
 
-    return _events;
+    return ext::nullopt;
 }
 
 } /* namespace ext::ui */

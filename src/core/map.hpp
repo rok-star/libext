@@ -256,12 +256,11 @@ template<typename K, typename V>
 inline bool map<K, V>::remove(K const& key) {
     int64_t index = _find_index(key);
     if (index > -1) {
-        _data.remove(index);
+        _data.splice(index, 1);
         return true;
     } else {
         return false;
     }
-    return *this;
 }
 
 } /* namespace ext */
