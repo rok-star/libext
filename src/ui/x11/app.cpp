@@ -34,13 +34,13 @@ app::app(ext::ui::app_options const& options)
 }
 
 ext::optional<ext::ui::event> app::poll_event(ext::ui::app_poll_options const& options) {
-    auto tv = (struct timeval){};
     auto fds = fd_set{};
-
+    auto tv = (struct timeval){
+        .tv_sec = 1,
+        .tv_usec = 0
+    };
+    
     FD_SET(__x11_fd, &fds);
-
-    tv.tv_usec = 0;
-    tv.tv_sec = 1;
 
     auto num = select((__x11_fd + 1), &fds, NULL, NULL, &tv);
     if ((num > 0)
