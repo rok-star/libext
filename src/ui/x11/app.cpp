@@ -42,8 +42,7 @@ ext::optional<ext::ui::event> app::poll_event(ext::ui::app_poll_options const& o
     
     FD_SET(__x11_fd, &fds);
 
-    auto num = select((__x11_fd + 1), &fds, NULL, NULL, &tv);
-    if ((num > 0)
+    if ((select((__x11_fd + 1), &fds, NULL, NULL, &tv) > 0)
     && XPending(__x11_display)) {
         XNextEvent(__x11_display, &__x11_event);
         return ext::ui::event::basic_event(ext::ui::event_type::exit);
